@@ -11,6 +11,7 @@ let boxes = document.querySelector('.boxes');
 let btn = document.querySelector('#btn');
 let count = document.createElement('span');
 count.innerText = '0';
+let delBox;
 
 function renderBox() {
     for(let i = 0; i < colors.length; i++) {
@@ -19,24 +20,18 @@ function renderBox() {
         box.classList.add('box');
         boxes.insertAdjacentElement('beforeend',box);
         count.textContent ++;
+        box.addEventListener("click",function() {
+            count.textContent --;
+            box.remove();
+        })
     } 
     totalLc.insertAdjacentElement('beforeend',count);
-}
 
+    
+}
 renderBox();
 btn.addEventListener('click', function() { 
     count.remove();
     renderBox();
 });
 
-let delBox = document.querySelectorAll('.box');
-
-function deleteBox() {
-    delBox.forEach(function(box) {
-        box.addEventListener("click",function() {
-            count.textContent --;
-            box.remove();
-        })
-    })
-}
-deleteBox();
