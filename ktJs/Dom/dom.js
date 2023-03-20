@@ -49,7 +49,7 @@ function addQuizz(quizes) {
 }
 addQuizz(quizes);
 
-ranBtn.addEventListener('click', function() {
+ranBtn.addEventListener('click', function() {   
     const quizAnswerItems = document.querySelectorAll('.quiz-answer-items input');
     console.log(quizAnswerItems);
     btn.addEventListener("click", () => {
