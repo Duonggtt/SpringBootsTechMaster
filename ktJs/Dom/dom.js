@@ -51,7 +51,7 @@ addQuizz(quizes);
 
 ranBtn.addEventListener('click', function() {   
     const quizAnswerItems = document.querySelectorAll('.quiz-answer-items input');
-    console.log(quizAnswerItems);
+    console.log('----' + quizAnswerItems);
     btn.addEventListener("click", () => {
         quizes.forEach((quiz) => {
           const randomIndex = Math.floor(Math.random() * quiz.answers.length);
