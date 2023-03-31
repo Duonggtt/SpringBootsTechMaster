@@ -37,20 +37,36 @@ function TodoList() {
     };
 
     const addTodoItem = async () => {
+      if(title.trim() === '') {
+        alert("input is null !");
+        return;
+      }
+      const newTodo = {
+        title: title,
+      };
+      //goi Post API de tao todo moi
         try {
-            let result = await fetch(API_URL, {
-              method: "POST",
-            });
-            if (result.status === 204) {
-              setTodos([...todos,title]);
-              setTitle('');
-            } else {
-              console.error(result);
-              alert("error when delete");
-            }
-          } catch (error) {
-            console.error(error);
+          let postResult = await fetch(API_URL, {
+            headers: {
+              'content-type': 'application/json ; charset=utf-8'
+            },
+            method: "POST",
+            body: JSON.stringify(newTodo)
+          });
+          if(postResult.status === 201) {
+            console.log(postResult);
+            let createdTodo = postResult.json();
+            let updatedTodoList = [...todos,createdTodo];
+            setTodos(updatedTodoList);
+            setTitle('');
+          }else {
+            console.error(postResult);
+            alert("Error when add item !!!");
           }
+        } catch (error) {
+          console.error(error);
+        }
+      
     }
   
     return (
