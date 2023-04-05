@@ -68,6 +68,11 @@ function TodoList() {
         }
       
     }
+
+    const updateStatus = async id => {
+      const todo = todos.find(todo => todo.id === id);
+      let updateTodo = {}
+    }
   
     return (
       <>
