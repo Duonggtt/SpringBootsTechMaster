@@ -2,27 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Title</title>
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-    <div id="container">
-        <div id="login-form">
-            <h1 class="login-form-title">LOGIN</h1>
-            <div class="login-form-container">
-                <div class="login-form-container-item">
-                    <h4 class="login-form-user-title"> Username :</h4>
-                    <input class="login-form-input name" placeholder="Enter your username..."></input>
-                </div>
-                <div class="login-form-container-item">
-                    <h4 class="login-form-user-title"> Password :</h4>
-                    <input class="login-form-input pass" placeholder="Enter your password..."></input>
-                    <p class="login-form-user-reg"><a href="">Register?</a></p>
-                </div>
-            </div>
-            <div class="btn-container"><button class="login-form-btn">LOGIN</button></div>
-        </div>
+<div id="container">
+  <div id="login-form">
+    <h1 class="login-form-title">LOGIN</h1>
+    <div class="login-form-container">
+      <div class="login-form-container-item">
+        <h4 class="login-form-user-title"> Username :</h4>
+        <input type="text" class="login-form-input name" placeholder="Enter your username..."></input>
+      </div>
+      <div class="login-form-container-item">
+        <h4 class="login-form-user-title"> Password :</h4>
+        <input type="password" class="login-form-input pass" placeholder="Enter your password..."></input>
+        <p class="login-form-user-reg"><a href="">Register?</a></p>
+      </div>
     </div>
-    <script src="main.js"></script>
+    <div class="btn-container">
+      <button class="login-form-btn">LOGIN</button>
+    </div>
+    <div id="message" style="display: none;"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="./main.js"></script>
 </body>
 </html>

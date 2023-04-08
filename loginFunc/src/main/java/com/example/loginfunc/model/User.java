@@ -1,4 +1,4 @@
-package com.example.loginfunc;
+package com.example.loginfunc.model;
 
 import lombok.Data;
 
