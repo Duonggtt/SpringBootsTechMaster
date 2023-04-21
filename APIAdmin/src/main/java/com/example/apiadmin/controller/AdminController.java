@@ -2,6 +2,7 @@ package com.example.apiadmin.controller;
 
 import com.example.apiadmin.model.*;
 import com.example.apiadmin.model.DTO.CourseDTO;
+import com.example.apiadmin.request.Page;
 import com.example.apiadmin.request.PageRequest;
 import com.example.apiadmin.request.PagedResponse;
 import com.example.apiadmin.service.CourseService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/admin")

@@ -6,6 +6,9 @@ import com.example.apiadmin.model.CourseMapper;
 import com.example.apiadmin.model.CreateCourseReq;
 import com.example.apiadmin.model.DTO.CourseDTO;
 import com.example.apiadmin.model.UpdateCourseReq;
+import com.example.apiadmin.request.Page;
+import com.example.apiadmin.request.PageRequest;
+import com.example.apiadmin.request.PagedResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -79,4 +82,5 @@ public class CourseServiceImpl implements CourseService{
         }
         throw new NotFoundException("Not found id");
     }
+
 }
