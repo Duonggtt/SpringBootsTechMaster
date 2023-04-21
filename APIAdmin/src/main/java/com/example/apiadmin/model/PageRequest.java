@@ -12,7 +12,7 @@ import java.util.List;
 public class PageRequest {
     private int currentPage = 1;
     private int pageSize = 10;
-    private int totalPages;
-    private int totalItems;
+    private int totalPages  = 2 ;
+    private int totalItems = 19;
     private List<Course> courseList;
 }

@@ -19,7 +19,11 @@ public class AdminController {
     @Autowired
     private CourseService courseService;
 
+    @GetMapping("/course")
+    public ResponseEntity<?> getAdminCourse() {
 
+        return ResponseEntity.ok(courseService.getAdminCourse());
+    }
 
     @PostMapping("/course")
     public ResponseEntity<?> createCourse(@RequestBody CreateCourseReq course) {

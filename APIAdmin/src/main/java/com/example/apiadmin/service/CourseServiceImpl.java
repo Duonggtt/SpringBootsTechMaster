@@ -1,18 +1,21 @@
 package com.example.apiadmin.service;
 
 import com.example.apiadmin.Exception.NotFoundException;
-import com.example.apiadmin.model.Course;
-import com.example.apiadmin.model.CourseMapper;
-import com.example.apiadmin.model.CreateCourseReq;
+import com.example.apiadmin.model.*;
 import com.example.apiadmin.model.DTO.CourseDTO;
-import com.example.apiadmin.model.UpdateCourseReq;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 @Service
 public class CourseServiceImpl implements CourseService{
-    private static List<Course> courses = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
+    private List<PageRequest> admins = new ArrayList<>();
+
+    public List<PageRequest> getAdminCourse() {
+        admins.add(new PageRequest(1,10,2,19,courses));
+        return admins;
+    }
 
 
     @Override
