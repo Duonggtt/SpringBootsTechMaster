@@ -20,6 +20,7 @@ public class AdminController {
     private CourseService courseService;
 
 
+
     @PostMapping("/course")
     public ResponseEntity<?> createCourse(@RequestBody CreateCourseReq course) {
         CourseDTO newCourse = courseService.createAdminCourse(course);
