@@ -59,6 +59,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto createUserReq(CreateUserReq createUserReq) {
+
+        for (User user : users) {
+            if (user.getEmail().equals(createUserReq.getEmail())) {
+                throw new DuplicateRequestException("Email đã tồn tại trong hệ thống");
+            }
+        }
         User user = new User();
         user.setId(user.getId() + 1);
         user.setName(createUserReq.getName());
@@ -103,6 +109,5 @@ public class UserServiceImpl implements UserService{
         }
         throw new NotFoundException("No user found");
     }
-
 
 }

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add-Employer</title>
+</head>
+<body>
+    <h1>Thêm nhà tuyển dụng</h1>
+    <form th:action="@{/addEmployer}" method="post" th:object="${employer}">
+        <label>Tên công ty:</label><br>
+        <input type="text" th:field="*{name}" required><br>
+        <label>Email:</label><br>
+        <input type="email" th:field="*{email}" required><br>
+        <label>Số điện thoại:</label><br>
+        <input type="tel" th:field="*{phone}" required><br>
+        <button type="submit">Lưu</button>
+    </form>
+</body>
+</html>

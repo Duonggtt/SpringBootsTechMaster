@@ -1,17 +1,19 @@
 package com.example.usermanagement.controller;
 
-import com.example.usermanagement.model.entity.User;
 import com.example.usermanagement.model.entity.UserDto;
 import com.example.usermanagement.request.CreateUserReq;
 import com.example.usermanagement.request.UpdateUserReq;
 import com.example.usermanagement.service.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/users")
 @RestController
+@Validated
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable int id) {
+    public ResponseEntity<?> getUserById(@PathVariable @Min(value = 3, message = "user id must ... ") int id) {
         UserDto userDto = userService.getUserById(id);
         return ResponseEntity.ok(userDto);
     }
@@ -38,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createUserReq(@RequestBody CreateUserReq req) {
+    public ResponseEntity<?> createUserReq( @Valid @RequestBody CreateUserReq req) {
         UserDto result = userService.createUserReq(req);
         return ResponseEntity.ok(result);
     }
@@ -54,5 +56,7 @@ public class UserController {
         userService.removeUser(id);
         return ResponseEntity.ok("Delete success");
     }
+
+
         
 }

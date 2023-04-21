@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn {
+            margin-top: 30px;
+        }
+        #container{
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="height">
+            <h3 class="height-title">Height:</h3>
+            <input class="height-input" type="text" placeholder="Enter your height...">
+        </div>
+        <div id="weight">
+            <h3 class="weight-title">Weight:</h3>
+            <input class="weight-input" type="text" placeholder="Enter your weight...">
+        </div>
+        <button class="post-api-btn btn">POST</button>
+        <button class="get-api-btn btn">GET BMI</button>
+        <script>
+            const postBtn = document.querySelector('.post-api-btn');
+            const getBmi = document.querySelector('.get-api-btn');
+
+            getBmi.addEventListener('click', () => {
+                const heightInput = document.querySelector('.height-input');
+                const weightInput = document.querySelector('.weight-input');
+
+                let heightValue = heightInput.value;
+                let weightValue = weightInput.value;
+
+
+                const API_URL = `http://localhost:8080/bmi?height=${heightValue}&weight=${weightValue}`;
+
+                fetch(API_URL)
+                    .then(response => {
+                        if(!response.ok) {
+                            throw new Error("Error!");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        alert(`Your BMI is ${data}`);
+                        heightInput.innerText = '';
+                        weightValue.innerText = '';
+                    })
+                    .catch(e => {
+                        alert(`Error: ${e.message}`);
+                    });
+            });
+
+            postBtn.addEventListener('click', () => {
+                const heightInput = document.querySelector('.height-input');
+                const weightInput = document.querySelector('.weight-input');
+                const API_URL = "http://localhost:8080/bmi";
+                const reg = new RegExp('^[0-9]+$');
+
+                let heightValue = heightInput.value;
+                let weightValue = weightInput.value;
+
+                if(heightValue === '' || weightValue === '') {
+                    alert("Weight and Height are required!!!");
+                    return;
+                }
+                if(heightValue <= 0 || weightValue <= 0) {
+                    alert("Weight and height must > 0!");
+                    return;
+                }
+                if(!reg.test(heightValue) || !reg.test(weightValue)) {
+                    alert("Please enter correct regex!");
+                    return;
+                }
+
+                const data = { height: heightValue, weight: weightValue };
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                };
+
+                fetch(API_URL, options)
+                    .then(response => response.json())
+                    .then(data => {
+                        alert("Post information success!");
+                    })
+                    .catch(e => {
+                        alert(`Error: ${e.message}`);
+                    })
+            });
+
+        </script>
+    </div>
+</body>
+</html>

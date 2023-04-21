@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employer-list</title>
+</head>
+<body>
+  <h1>Danh sách nhà tuyển dụng</h1>
+
+  <table>
+      <thead>
+      <tr>
+          <th>Tên nhà tuyển dụng</th>
+          <th>Email</th>
+          <th>Phone</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="employer : ${employers}">
+          <td th:text="${employer.name}"></td>
+          <td th:text="${employer.email}"></td>
+          <td th:text="${employer.phone}"></td>
+      </tr>
+      </tbody>
+  </table>
+</body>
+</html>

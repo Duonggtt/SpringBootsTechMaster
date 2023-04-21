@@ -11,12 +11,17 @@ import java.util.List;
 @Service
 public interface UserService {
     List<User> getUser();
+
     List<UserDto> getUserDTO();
+
     UserDto getUserById(int id);
+
     UserDto getUserByName(String name);
+
     UserDto createUserReq(CreateUserReq createUserReq);
 
-    UserDto updateUser(UpdateUserReq updateUserReq,int id);
+    UserDto updateUser(UpdateUserReq updateUserReq, int id);
 
     boolean removeUser(int id);
 }
+
