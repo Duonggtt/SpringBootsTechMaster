@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private static ArrayList<User> users = new ArrayList<>();
 
     static {
-        users.add(new User(1, "Nguyễn Thị Mộng Mơ", "mongmo@gmail.com","0987654321","avatar.img","123"));
-        users.add(new User(2, "Bùi Như Lạc", "laclac@gmail.com","0123456789","avatar1.img","123"));
-        users.add(new User(3, "Phan Thị Lỏng Lẻo", "longleo@gmail.com","0987564664","avatar3.img","123"));
-        users.add(new User(4, "Bành Thị Tèo", "teo@gmail.com","0874845455","avatar9.img","123"));
+        users.add(new User(1, "Nguyễn Thị Mộng Mơ", "mongmo@gmail.com", "0987654321", "avatar.img", "123"));
+        users.add(new User(2, "Bùi Như Lạc", "laclac@gmail.com", "0123456789", "avatar1.img", "123"));
+        users.add(new User(3, "Phan Thị Lỏng Lẻo", "longleo@gmail.com", "0987564664", "avatar3.img", "123"));
+        users.add(new User(4, "Bành Thị Tèo", "teo@gmail.com", "0874845455", "avatar9.img", "123"));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserDto> getUserDTO() {
         List<UserDto> listUserDTO = new ArrayList<>();
-        for(User user : users) {
+        for (User user : users) {
             listUserDTO.add(UserMapper.toUserDTO(user));
         }
         return listUserDTO;
@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserById(int id) {
-        for(User user : users) {
-            if(user.getId() == id) {
+        for (User user : users) {
+            if (user.getId() == id) {
                 return UserMapper.toUserDTO(user);
             }
         }
@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto getUserByName(String name) {
-        for(User user : users) {
-            if(user.getName().equals(name)) {
+        for (User user : users) {
+            if (user.getName().equals(name)) {
                 return UserMapper.toUserDTO(user);
             }
         }
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto updateUser(UpdateUserReq updateUserReq,int id) {
+    public UserDto updateUser(UpdateUserReq updateUserReq, int id) {
         for (User user : users) {
             if (user.getId() == id) {
                 if (!user.getEmail().equals(updateUserReq.getEmail())) {
@@ -101,8 +101,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean removeUser(int id) {
-        for(User user : users) {
-            if(user.getId() == id) {
+        for (User user : users) {
+            if (user.getId() == id) {
                 users.remove(user);
                 return true;
             }

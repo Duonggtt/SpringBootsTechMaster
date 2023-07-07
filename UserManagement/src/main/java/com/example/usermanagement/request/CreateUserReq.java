@@ -21,6 +21,6 @@ public class CreateUserReq {
     @Size(min = 4, max = 20, message = "Pasword must be between 4 and 20 characters")
     private String password;
 
-    @Pattern(regexp="(09|01[2|6|8|9])+([0-9]{8})\\b", message = "Please provide a valid phone number")
+    @Pattern(regexp = "(09|01[2|6|8|9])+([0-9]{8})\\b", message = "Please provide a valid phone number")
     private String phone;
 }

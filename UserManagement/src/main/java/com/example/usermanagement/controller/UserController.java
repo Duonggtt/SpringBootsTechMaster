@@ -40,14 +40,14 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> createUserReq( @Valid @RequestBody CreateUserReq req) {
+    public ResponseEntity<?> createUserReq(@Valid @RequestBody CreateUserReq req) {
         UserDto result = userService.createUserReq(req);
         return ResponseEntity.ok(result);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@RequestBody UpdateUserReq req, int id) {
-        UserDto result = userService.updateUser(req,id);
+        UserDto result = userService.updateUser(req, id);
         return ResponseEntity.ok(result);
     }
 
@@ -58,5 +58,4 @@ public class UserController {
     }
 
 
-        
 }

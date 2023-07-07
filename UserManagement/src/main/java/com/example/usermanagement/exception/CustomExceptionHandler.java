@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.List;
 
 @RestControllerAdvice
-public class CustomExceptionHandler{
+public class CustomExceptionHandler {
 
     public ErrorResponse handlerNotFoundException(NotFoundException e, WebRequest req) {
         return new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
@@ -22,7 +22,7 @@ public class CustomExceptionHandler{
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBindException(BindException e) {
         String errorMessage = "Req is not valid. Detail errors:";
-        if(e.getBindingResult().hasErrors()) {
+        if (e.getBindingResult().hasErrors()) {
             List<String> defaultMessage = e.getBindingResult().getAllErrors().stream().map(err -> err.)
             errorMessage += e.getBindingResult().getAllErrors();
 
