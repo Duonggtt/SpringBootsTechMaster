@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <meta charset="UTF-8">
+      <title>Title</title>
+      <link rel="stylesheet" th:href="@{/css/style.css}">
+  </head>
+  <body>
+    <h1>Thymleaf <th:block th:text="${name}"></th:block></h1>
+
+
+    <ul>
+        <li>Id: <th:block th:text="${user.id}"></th:block></li>
+        <li>Name: <th:block th:text="${user.name}"></th:block></li>
+        <li>Email: <th:block th:text="${user.email}"></th:block></li>
+    </ul>
+
+    <h2 th:if="${age} <= 20">
+        <i>Correct</i>
+    </h2>
+
+  <table>
+      <thead>
+        <tr>
+            <th>INDEX</th>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>EMAIL</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr th:each="user, u: ${userList}">
+              <td th:text="${u.index}"></td>
+              <td th:text="${user.id}"></td>
+              <td th:text="${user.name}"></td>
+              <td th:text="${user.email}"></td>
+          </tr>
+      </tbody>
+  </table>
+
+    <th:block th:switch="${day}">
+        <i th:case="1">day1</i>
+        <i th:case="2">day2</i>
+        <i th:case="3">day3</i>
+        <i th:case="4">day4</i>
+        <i th:case="5">day5</i>
+        <i th:case="6">day6</i>
+    </th:block>
+
+  <span th:text="${age} > 30 ? 'Ban gia r' : 'Ban con tre'"></span>
+
+    <p class ="default-class" th:class="${isAdmin} ? admin : user">
+        Some Text 1
+    </p>
+
+    <p th:class="${isAdmin} ? admin : user">
+        Some Text 2
+    </p>
+
+    <p th:style ="${isAdmin} ? 'font-style: bold;' : 'font-style: italic;'">
+        Some Text 1
+    </p>
+
+    <p style ="font-style: italic" th:styleappend ="${isAdmin} ? 'color: blue' : 'color: red'">
+        Some Text 5
+    </p>
+
+  </body>
+</html>
