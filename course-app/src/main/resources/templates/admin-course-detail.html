@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/fragment/course-list-layout :: course-list-layout(~{:: title},~{:: #content}, ~{:: #header})}">
 
+
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${course.name}"></title>
-
-
-
 </head>
 
 <body>
+
 <th:block id="header">
-  <div th:replace="~{/fragment/header :: header}"></div>
+  <div th:replace="~{/fragment/admin-header :: header}"></div>
 </th:block>
 
 <th:block id="content">
@@ -22,16 +21,24 @@
       <div class="row justify-content-center">
         <div class="col-md-10">
           <div class="mb-4">
-            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <nav class="nav-detail" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a th:href="@{/khoa-hoc}">Khóa học</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/admin/course}">Khóa học</a></li>
                 <li class="breadcrumb-item active" aria-current="page" th:text="${course.name}"></li>
+              </ol>
+              <ol class="option">
+                <li><a th:href="@{/admin/course}"><button class="update-btn btn">SAVE</button></a></li>
+                <li><a th:href="@{/admin/course}"><button class="delete-btn btn">DELETE</button></a></li>
+                <li><a th:href="@{/admin/course}"><button class="delete-btn btn">RETURN</button></a></li>
               </ol>
             </nav>
           </div>
 
           <div class="main p-4 shadow-sm">
-            <h2 class="course-title fs-5" th:text="${course.name}"></h2>
+            <div>
+              <label for="">Tên khóa học: </label>
+              <input type="text" th:value="${course.name}">
+            </div>
 
             <hr>
 
@@ -39,19 +46,20 @@
               <div class="supporter-image">
                 <img th:src="${user.avatar}"
                      alt="tư vấn viên" class="rounded-circle me-3">
+                <button class="img-btn">Tải ảnh lên...</button>
               </div>
               <div class="supporter-info">
                 <p>
-                  <b>Tư vấn viên :</b>
-                  <span th:text="${user.name}"></span>
+                  <label for="">Tư vấn viên : </label>
+                  <input type="text" th:value="${user.name}">
                 </p>
                 <p>
-                  <b>Email :</b>
-                  <span th:text="${user.email}"></span>
+                  <label for="">Email : </label>
+                  <input type="text" th:value="${user.email}">
                 </p>
                 <p class="mb-0">
-                  <b>Số điện thoại :</b>
-                  <span th:text="${user.phone}"></span>
+                  <label for="">Số điện thoại : </label>
+                  <input type="text" th:value="${user.phone}">
                 </p>
               </div>
             </div>
@@ -59,7 +67,7 @@
             <hr>
 
             <div class="course-description">
-              <p th:text="${course.description}"></p>
+              <textarea class="des-input" rows="8" cols="126" th:text="${course.description}"></textarea>
             </div>
           </div>
         </div>
@@ -68,6 +76,7 @@
   </div>
 
 </th:block>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

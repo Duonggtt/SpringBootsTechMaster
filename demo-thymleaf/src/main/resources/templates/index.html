@@ -6,6 +6,9 @@
       <link rel="stylesheet" th:href="@{/css/style.css}">
   </head>
   <body>
+
+  <th:block th:replace="~{/fragment/fragment :: menu}"></th:block>
+
     <h1>Thymleaf <th:block th:text="${name}"></th:block></h1>
 
 

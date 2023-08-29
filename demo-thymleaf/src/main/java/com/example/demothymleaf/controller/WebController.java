@@ -32,7 +32,10 @@ public class WebController {
     }
 
     @GetMapping("/admin")
-    public String getAdminPage() {
+    public String getAdminPage(Model model) {
+        model.addAttribute("user1",users.get(0));
+        model.addAttribute("user2",users.get(1));
+        model.addAttribute("userList",users);
         return "admin/admin";
     }
 }

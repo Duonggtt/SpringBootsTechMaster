@@ -7,7 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Danh sách khóa học</title>
-
   <!-- Link icon -->
 
 </head>
@@ -15,7 +14,7 @@
 <body>
 
 <th:block id="header">
-  <div th:replace="~{/fragment/header :: header}"></div>
+  <div th:replace="~{/fragment/admin-header :: header}"></div>
 </th:block>
 
 <th:block id="content">
@@ -54,9 +53,10 @@
               </select>
             </div>
           </div>
+
           <div class="course-list row">
             <div class="col-md-4" th:each="c : ${courseList}">
-              <th:block th:replace="~{/fragment/course :: courseItem(${c})}"></th:block>
+              <th:block th:replace="~{/fragment/admin-course :: adminCourseItem(${c})}"></th:block>
             </div>
           </div>
 

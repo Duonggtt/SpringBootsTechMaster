@@ -8,11 +8,12 @@
 
 </head>
 
-<body>
+
 <th:block id="header">
   <div th:replace="~{/fragment/admin-header :: header}"></div>
 </th:block>
 
+<body>
 <th:block id="content">
 
   <div class="course-container mt-5">
@@ -37,7 +38,7 @@
           </div>
           <div class="course-list row">
             <div class="col-md-4" th:each="c : ${courseList}">
-              <th:block th:replace="~{/fragment/course :: courseItem(${c})}"></th:block>
+              <th:block th:replace="~{/fragment/admin-course :: adminCourseItem(${c})}"></th:block>
             </div>
           </div>
         </div>

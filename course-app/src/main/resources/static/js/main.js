@@ -1,4 +1,4 @@
-// const API_URL = "http://localhost:8080/api/v1";
+// const API_URL = "/api/v1";
 //
 // let params = {
 //     type: null,
@@ -8,10 +8,6 @@
 //
 // const getAllCourseApi = (params) => {
 //     return axios.get(`${API_URL}/courses`, { params })
-// }
-//
-// const getAllTopicApi = () => {
-//     return axios.get(`${API_URL}/topics`)
 // }
 //
 // const getAllCourse = async (params) => {
@@ -38,7 +34,7 @@
 //     courseList.forEach(course => {
 //         html += `
 //             <div class="col-md-4">
-//                 <a href="./detail.html?id=${course.id}">
+//                 <a href="./khoa-hoc/${course.id}">
 //                     <div class="course-item shadow-sm rounded mb-4">
 //                         <div class="course-item-image">
 //                             <img src="${course.thumbnail}"
@@ -68,31 +64,6 @@
 //     })
 // }
 //
-// // Gọi API lấy ds topic và hiển thị
-// const getAllTopic = async () => {
-//     try {
-//         let res = await getAllTopicApi();
-//         renderTopics(res.data);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-//
-// // Hiển thị danh sách topic
-// const topicListEl = document.querySelector(".topic-list");
-// const renderTopics = (topicList) => {
-//     let html = "";
-//     topicList.forEach(topic => {
-//         html += `
-//             <div class="topic-item input-group d-flex align-items-center mb-1">
-//                 <input type="radio" value="${topic}" id="${topic}" name="topic">
-//                 <label for="${topic}" class="ms-2 fs-5">${topic}</label>
-//             </div>
-//         `
-//     });
-//     topicListEl.innerHTML = html;
-// }
-//
 // // Xử lý tìm kiếm khóa học theo tiêu đề
 // const searchEl = document.querySelector(".seach-form-input");
 // searchEl.addEventListener("search", (e) => {
@@ -106,24 +77,3 @@
 // })
 //
 // getAllCourse(params);
-// getAllTopic().then(() => {
-//     // Xử lý lọc theo topic
-//     const topicItemEls = document.querySelectorAll(".topic-item input");
-//     const btnUnFilter = document.querySelector(".btn-unfilter");
-//     topicItemEls.forEach(el => {
-//         el.addEventListener("change", (e) => {
-//             btnUnFilter.classList.remove("d-none");
-//             let value = e.target.value;
-//             params = { ...params, topic: value };
-//             getAllCourse(params);
-//         })
-//     })
-//
-//     btnUnFilter.addEventListener("click", () => {
-//         topicItemEls.forEach(el => el.checked = false);
-//         btnUnFilter.classList.add("d-none");
-//
-//         params = { ...params, topic: null };
-//         getAllCourse(params);
-//     })
-// });

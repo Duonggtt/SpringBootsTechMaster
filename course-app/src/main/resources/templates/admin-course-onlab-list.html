@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{/fragment/course-list-layout :: course-list-layout(~{:: title},~{:: #content}, ~{:: #header})}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/fragment/course-list-layout :: course-list-layout(~{:: title}, ~{:: #content}, ~{:: #header})}">
 
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Danh sách trực tuyến</title>
+  <title>Danh sách phòng lab</title>
+
 
 </head>
 
 <body>
+
 <th:block id="header">
   <div th:replace="~{/fragment/admin-header :: header}"></div>
 </th:block>
 
 <th:block id="content">
-
   <div class="course-container mt-5">
     <div class="container">
       <div class="row">
@@ -35,9 +37,10 @@
               </div>
             </div>
           </div>
+
           <div class="course-list row">
             <div class="col-md-4" th:each="c : ${courseList}">
-              <th:block th:replace="~{/fragment/course :: courseItem(${c})}"></th:block>
+              <th:block th:replace="~{/fragment/admin-course :: adminCourseItem(${c})}"></th:block>
             </div>
           </div>
         </div>
