@@ -43,21 +43,10 @@
                                 <li class="breadcrumb-item"><a th:href="@{/admin/course}">Khóa học</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Tạo khóa học mới...</li>
                             </ol>
-                            <ol class="option">
-                                <li><a th:href="@{/admin/course}"><button class="update-btn btn">SAVE</button></a></li>
-                                <li><a th:href="@{/admin/course}"><button class="delete-btn btn">DELETE</button></a></li>
-                                <li><a th:href="@{/admin/course}"><button class="delete-btn btn">RETURN</button></a></li>
-                            </ol>
                         </nav>
                     </div>
 
                     <div class="main p-4 shadow-sm">
-                        <div>
-                            <label for="">Tên khóa học: </label>
-                            <input type="text" value="Nhập tên khóa học">
-                        </div>
-
-                        <hr>
 
                         <div class="supporter d-flex align-items-center">
                             <div class="supporter-image">
@@ -66,11 +55,15 @@
                                 <button class="img-btn">Tải ảnh lên...</button>
                             </div>
                             <div class="supporter-info">
-                                <p>
+                                <p class="mb-0">
+                                    <label for="">Id tư vấn viên : </label>
+                                    <input type="text" value="Nhập id tư vấn viên...">
+                                </p>
+                                <p class="mb-0">
                                     <label for="">Tư vấn viên : </label>
                                     <input type="text" value="Nhập tên tư vấn viên...">
                                 </p>
-                                <p>
+                                <p class="mb-0">
                                     <label for="">Email : </label>
                                     <input type="text" value="Nhập email...">
                                 </p>
@@ -83,8 +76,37 @@
 
                         <hr>
 
+                        <div class="course-info">
+                            <p class="mb-0">
+                                <label for="">Tên khóa học: </label>
+                                <input type="text" value="Nhập tên khóa học">
+                            </p>
+                            <p class="mb-0">
+                                <label for="">Kiểu khóa học : </label>
+                                <input type="text" value="Nhập type...">
+                            </p>
+                            <p class="mb-0">
+                                <label for="">Các topics : </label>
+                                <input type="text" value="Nhập topics...">
+                            </p>
+                            <p class="mb-0">
+                                <label for="">Thumbnail : </label>
+                                <input type="text" value="Nhập thumbnail...">
+                            </p>
+                        </div>
+                        <hr>
+
                         <div class="course-description">
                             <textarea class="des-input" rows="8" cols="126">Description here...</textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <nav class="submit-btn nav-detail" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                                <ol class="option">
+                                    <li><a th:href="@{/admin/course}"><button class="update-btn btn">SAVE</button></a></li>
+                                    <li><a th:href="@{/admin/course}"><button class="delete-btn btn">RETURN</button></a></li>
+                                </ol>
+                            </nav>
                         </div>
                     </div>
                 </div>

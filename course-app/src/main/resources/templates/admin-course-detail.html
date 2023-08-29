@@ -26,16 +26,11 @@
                 <li class="breadcrumb-item"><a th:href="@{/admin/course}">Khóa học</a></li>
                 <li class="breadcrumb-item active" aria-current="page" th:text="${course.name}"></li>
               </ol>
-              <ol class="option">
-                <li><a th:href="@{/admin/course}"><button class="update-btn btn">SAVE</button></a></li>
-                <li><a th:href="@{/admin/course}"><button class="delete-btn btn">DELETE</button></a></li>
-                <li><a th:href="@{/admin/course}"><button class="delete-btn btn">RETURN</button></a></li>
-              </ol>
             </nav>
           </div>
 
           <div class="main p-4 shadow-sm">
-            <div>
+            <div class="course-info">
               <label for="">Tên khóa học: </label>
               <input type="text" th:value="${course.name}">
             </div>
@@ -68,6 +63,16 @@
 
             <div class="course-description">
               <textarea class="des-input" rows="8" cols="126" th:text="${course.description}"></textarea>
+            </div>
+            <hr>
+            <div class="mb-4">
+              <nav class="submit-btn nav-detail" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="option">
+                  <li><a th:href="@{/admin/course}"><button class="update-btn btn">SAVE</button></a></li>
+                  <li><a th:href="@{/admin/course}"><button class="delete-btn btn">DELETE</button></a></li>
+                  <li><a th:href="@{/admin/course}"><button class="delete-btn btn">RETURN</button></a></li>
+                </ol>
+              </nav>
             </div>
           </div>
         </div>

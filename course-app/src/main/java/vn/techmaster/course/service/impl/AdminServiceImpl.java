@@ -1,12 +1,11 @@
 package vn.techmaster.course.service.impl;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import vn.techmaster.course.dao.CourseDAO;
 import vn.techmaster.course.dao.UserDAO;
 import vn.techmaster.course.db.CourseDB;
 import vn.techmaster.course.dto.CourseDto;
-import vn.techmaster.course.dto.UpsertCourseRequest;
+import vn.techmaster.course.request.UpsertCourseRequest;
 import vn.techmaster.course.exception.ResouceNotFoundException;
 import vn.techmaster.course.model.Course;
 import vn.techmaster.course.model.User;
@@ -39,10 +38,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Course createCourse(UpsertCourseRequest courseRequest) {
-        validateUpsertCourseRequest(courseRequest);
 
         Course course = new Course();
-        course.setId(courseRequest.getId());
+        course.setId(createId());
         course.setName(courseRequest.getName());
         course.setDescription(courseRequest.getDescription());
         course.setType(courseRequest.getType());
@@ -54,6 +52,12 @@ public class AdminServiceImpl implements AdminService {
         return course;
     }
 
+
+    private Integer createId() {
+        Integer id = CourseDB.courseList.size() + 1;
+        id++;
+        return id;
+    }
     @Override
     public CourseDto getCourseById(Integer id) {
         Course course = courseDAO.findById(id)
@@ -62,14 +66,29 @@ public class AdminServiceImpl implements AdminService {
         return mapToDto(course);
     }
 
+
     @Override
-    public CourseDto updateCourse(Integer id, UpsertCourseRequest courseRequest) {
+    public Course updateCourse(Integer id, UpsertCourseRequest courseRequest) {
+
+        for(Course course: CourseDB.courseList) {
+            if (course.getId().equals(id)) {
+                course.setName(courseRequest.getName());
+                course.setDescription(courseRequest.getDescription());
+                course.setType(courseRequest.getType());
+                course.setTopics(courseRequest.getTopics());
+                course.setThumbnail(courseRequest.getThumbnail());
+                course.setUserId(courseRequest.getUserId());
+
+                CourseDB.courseList.add(course);
+                break;
+            }
+        }
         return null;
     }
 
     @Override
     public void deleteCourse(Integer id) {
-
+        courseDAO.deleteCourse(id);
     }
 
     private CourseDto mapToDto(Course course) {
@@ -86,18 +105,5 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    private void validateUpsertCourseRequest(UpsertCourseRequest request) {
-
-        if (request.getName() == null || request.getName().isEmpty()
-                || request.getDescription() == null || request.getDescription().isEmpty()
-                || request.getType() == null || request.getType().isEmpty()
-                || request.getUserId() == null || request.getTopics() == null || request.getTopics().isEmpty()) {
-            throw new IllegalArgumentException("Required fields are missing");
-        }
-
-        if (request.getDescription().length() <= 50) {
-            throw new IllegalArgumentException("Description must be longer than 50 characters");
-        }
-    }
 
 }

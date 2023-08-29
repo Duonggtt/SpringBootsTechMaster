@@ -3,9 +3,7 @@ package vn.techmaster.course.dao.impl;
 import org.springframework.stereotype.Repository;
 import vn.techmaster.course.dao.CourseDAO;
 import vn.techmaster.course.db.CourseDB;
-import vn.techmaster.course.db.UserDB;
 import vn.techmaster.course.model.Course;
-import vn.techmaster.course.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +15,11 @@ public class CourseDAOImpl implements CourseDAO {
         return CourseDB.courseList;
     }
 
+
+    @Override
+    public boolean deleteCourse(Integer id) {
+        return CourseDB.courseList.removeIf(c -> c.getId().equals(id));
+    }
     @Override
     public Optional<Course> findById(Integer id) {
         return CourseDB.courseList.stream()

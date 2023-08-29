@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link rel="stylesheet" th:href="@{/css/adminStyle.css}">
 </head>
 <body>
 <div th:fragment="header" class="header d-flex align-items-center">
@@ -18,7 +19,7 @@
       <div class="menu">
         <a class="text-white text-uppercase ms-5" th:href="@{/admin/course/onlab}">Phòng lab</a>
         <a class="text-white text-uppercase ms-3" th:href="@{/admin/course/onlab}">Trực tuyến</a>
-        <a class="text-white text-uppercase ms-3" th:href="@{/admin/course/onlab}">Thêm khóa học</a>
+        <a class="text-white text-uppercase ms-3" th:href="@{/admin/course/create}">Thêm khóa học</a>
       </div>
     </div>
   </div>
