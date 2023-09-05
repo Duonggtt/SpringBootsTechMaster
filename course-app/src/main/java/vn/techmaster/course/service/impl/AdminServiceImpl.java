@@ -54,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     private Integer createId() {
-        Integer id = CourseDB.courseList.size() + 1;
+        Integer id = CourseDB.courseList.size();
         id++;
         return id;
     }

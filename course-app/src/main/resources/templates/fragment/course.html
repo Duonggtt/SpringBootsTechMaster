@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/adminStyle.css}">
 </head>
 <body>
     <a th:fragment="courseItem(info)" th:href="@{/khoa-hoc/{id}(id = ${info.id})}">
