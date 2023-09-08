@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Tạo khóa học</title>
+  <title th:text="${course.name}">Tạo khóa học</title>
 
   <!-- Link google font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,40 +73,34 @@
           <div class="mb-3">
             <label for="course-type" class="form-label fw-bold">Hình thức học</label>
             <select class="form-control" id="course-type">
-              <option th:value="${course.type}" th:text="${course.type}"></option>
-              <option value="online">online</option>
-              <option value="onlab">onlab</option>
+              <option value="online" th:selected="${course.type == 'online'}">online</option>
+              <option value="onlab" th:selected="${course.type == 'onlab'}">onlab</option>
             </select>
           </div>
 
           <div class="mb-3">
             <label for="course-topic" class="form-label fw-bold">Chủ đề</label>
             <select class="form-control topics-item" id="course-topic" multiple="multiple">
-              <option value="1" th:text="${course.topics}"></option>
-              <option value="2">Backend</option>
-              <option value="3">Frontend</option>
-              <option value="4">Mobile</option>
-              <option value="5">Lập trình web</option>
-              <option value="6">Database</option>
-              <option value="7">Devops</option>
+              <option th:each="topic : ${topicList}" th:value="${topic}" th:text="${topic}" th:selected="${#lists.contains(course.topics, topic)}">Backend</option>
             </select>
           </div>
           <div class="mb-3">
             <label for="course-supporter" class="form-label fw-bold">Tư vấn viên</label>
             <select class="form-control" id="course-supporter">
-              <option value="1" th:text="${user.name}"></option>
-              <option th:each="u : ${userList}" th:value="${u}" th:text="${u.name}"></option>
+              <option hidden>- Chọn tư vấn viên -</option>
+              <option th:each="user : ${userList}" th:value="${user.id}" th:text="${user.name}" th:selected="${course.user.id == user.id}"></option>
             </select>
           </div>
 
           <div class="mb-3">
             <label class="form-label fw-bold">Thumnail</label>
             <div class="course-logo-preview mb-3 rounded">
-              <img th:src="${course.thumbnail}" id="course-logo-preview" class="rounded">
+              <img th:src="${course.thumbnail}" th:alt="${course.name}" id="course-logo-preview" class="rounded">
             </div>
 
             <label for="course-logo-input" class="btn btn-warning">Đổi ảnh
-              <input type="file" id="course-logo-input" class="d-none"></label>
+              <input type="file" id="course-logo-input" class="d-none">
+            </label>
           </div>
         </div>
       </div>
@@ -124,7 +118,8 @@
 
 <!-- select2 -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
+
+<script th:inline="javascript">
 
   // Truy cập vào các thành phần
   const courseTopic = $("#course-topic");
@@ -132,10 +127,124 @@
   // Kích hoạt select2
   courseTopic.select2({
     placeholder: "- Chọn chủ đề",
+
   });
 
 
-</script>s
+  const courseThumbnailPreviewEl = document.getElementById("course-logo-preview");
+  const courseThumbnailInputEl = document.getElementById("course-logo-input");
+  const courseNameInput  = document.getElementById("course-name");
+  const courseDescriptionInput  = document.getElementById("course-description");
+  const courseTypeSelect = document.getElementById("course-type");
+  const courseTopicSelect = document.getElementById("course-topic");
+  const courseSpSelect = document.getElementById("course-supporter");
+  const courseThumb = document.getElementById("course-logo-preview");
+  const updateCourseBtn = document.querySelector(".btn-update-course");
+
+  courseThumbnailInputEl.addEventListener("change", async (e) => {
+
+    //1: lay ra file can sua
+    const file = e.target.files[0];
+    console.log(file);
+
+    //2: tao doi tuong formdata
+    const formData = new FormData();
+    formData.append("file",file)
+
+    //3: goi api
+    try {
+      const res = await axios.post("/api/v1/files", formData);
+      console.log(res);
+      if(res.status === 200) {
+        courseThumbnailPreviewEl.src = res.data;
+        toastr.success("Upload ảnh thành công");
+      }
+    }catch(e) {
+      console.log(e);
+    }
+
+  })
+  const courseList = [];
+
+  const courseAPI = async () => {
+    const res = await fetch('http://localhost:8080/api/v1/courses', {
+      method: 'GET', // string or object
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const myJson = await res.json(); //extract JSON from the http response
+    courseList.push(myJson);
+    console.log(courseList)
+  }
+  courseAPI();
+
+  const courseItem = [[${course}]]
+  console.log(courseItem.id)
+
+  const deleteCourseBtn = document.querySelector(".btn-delete-course");
+  deleteCourseBtn.addEventListener('click', function () {
+      const courseId = courseItem.id;
+
+      // Thực hiện DELETE request để xóa dữ liệu khóa học
+      fetch(`http://localhost:8080/api/v1/courses/${courseId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          // Các headers khác nếu cần
+        },
+      })
+
+              .then(response => {
+                if (response.status === 200) {
+                  // Xóa khóa học khỏi danh sách
+
+                  console.log(response)
+                  window.location.href = 'http://localhost:8080/admin/course'
+                } else {
+                  console.log(response.json())
+                  throw new Error('Lỗi khi xóa khóa học từ API.');
+                }
+              })
+              .catch(error => {
+                console.error('Lỗi khi xóa khóa học:', error);
+              });
+  });
+
+    updateCourseBtn.addEventListener('click' ,function () {
+
+      const rq  = {
+        "name" : courseNameInput.value,
+        "description" : courseDescriptionInput.value,
+        "type" : courseTypeSelect.value,
+        "topics": courseTopicSelect.value,
+        "avatar" : courseThumb.value
+      }
+
+      fetch('http://localhost:8080/api/v1/courses/${id}', {
+        method: 'PUT', // hoặc 'PATCH' nếu API hỗ trợ
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({rq}),
+      })
+              .then(response => {
+                if (response.status === 200) {
+                  return response.json();
+                } else {
+                  throw new Error('Lỗi khi cập nhật dữ liệu trong API.');
+                }
+              })
+              .then(updatedData => {
+                // Xử lý dữ liệu sau khi cập nhật thành công
+                console.log('Dữ liệu đã được cập nhật:', updatedData);
+              })
+              .catch(error => {
+                console.error('Lỗi khi cập nhật dữ liệu:', error);
+              });
+    })
+
+</script>
 </body>
 
 </html>

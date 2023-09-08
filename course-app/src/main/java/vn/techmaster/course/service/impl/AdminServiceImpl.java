@@ -1,10 +1,11 @@
 package vn.techmaster.course.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.techmaster.course.dao.CourseDAO;
-import vn.techmaster.course.dao.UserDAO;
 import vn.techmaster.course.db.CourseDB;
 import vn.techmaster.course.dto.CourseDto;
+import vn.techmaster.course.repository.UserRepository;
 import vn.techmaster.course.request.UpsertCourseRequest;
 import vn.techmaster.course.exception.ResouceNotFoundException;
 import vn.techmaster.course.model.Course;
@@ -18,11 +19,12 @@ import java.util.stream.Collectors;
 public class AdminServiceImpl implements AdminService {
 
     private final CourseDAO courseDAO;
-    private final UserDAO userDAO;
 
-    public AdminServiceImpl(CourseDAO courseDAO, UserDAO userDAO) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public AdminServiceImpl(CourseDAO courseDAO) {
         this.courseDAO = courseDAO;
-        this.userDAO = userDAO;
     }
 
     @Override
@@ -92,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private CourseDto mapToDto(Course course) {
-        User user = userDAO.findById(course.getUserId())
+        User user = userRepository.findById(course.getUserId())
                 .orElseThrow(() -> new ResouceNotFoundException("Not found user"));
         return CourseDto.builder()
                 .id(course.getId())

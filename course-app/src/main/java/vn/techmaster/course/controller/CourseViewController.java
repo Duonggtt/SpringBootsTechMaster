@@ -4,12 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import vn.techmaster.course.db.CourseDB;
 import vn.techmaster.course.db.TopicDB;
-import vn.techmaster.course.db.UserDB;
 import vn.techmaster.course.dto.CourseDto;
-import vn.techmaster.course.model.Course;
 import vn.techmaster.course.model.User;
 import vn.techmaster.course.service.CourseService;
 

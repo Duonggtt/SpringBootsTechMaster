@@ -1,8 +1,6 @@
 package vn.techmaster.course.service;
 
 import vn.techmaster.course.dto.CourseDto;
-import vn.techmaster.course.model.Course;
-import vn.techmaster.course.model.User;
 
 import java.util.List;
 
