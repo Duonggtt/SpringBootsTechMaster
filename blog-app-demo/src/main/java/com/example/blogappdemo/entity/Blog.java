@@ -36,7 +36,10 @@ public class Blog {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(mappedBy = "blogList")
+    @ManyToMany
+    @JoinTable(name = "blog_category",
+            joinColumns = @JoinColumn(name = "blog_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categoryList;
 
     @OneToMany(mappedBy = "blog")

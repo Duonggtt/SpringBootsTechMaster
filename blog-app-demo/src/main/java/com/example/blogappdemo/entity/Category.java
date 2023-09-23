@@ -7,9 +7,9 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Getter
 @Setter
+@Entity
 @Table(name = "category")
 @Builder
 public class Category {
@@ -18,11 +18,11 @@ public class Category {
     private Integer id;
 
     private String name;
-    @ManyToMany
-    @JoinTable(
-            name = "blog_category",
-            joinColumns = @JoinColumn(name = "blog_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @ManyToMany(mappedBy = "categoryList")
     private List<Blog> blogList;
+
+    public Category(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

@@ -1,9 +1,11 @@
 package com.example.blogappdemo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,17 +26,13 @@ public class User {
     private String email;
 
     private String avatar;
+    @JsonIgnore
     private String password;
 
-    @ManyToMany(mappedBy = "userList")
-    private List<Role> roleList;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role> roleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Blog> blogList;
-
-    @OneToMany(mappedBy = "user")
-    private List<Comment> commentList;
-
-    @OneToMany(mappedBy = "user")
-    private List<Image> imageList;
 }
