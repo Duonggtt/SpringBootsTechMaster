@@ -133,13 +133,6 @@
 
   const courseThumbnailPreviewEl = document.getElementById("course-logo-preview");
   const courseThumbnailInputEl = document.getElementById("course-logo-input");
-  const courseNameInput  = document.getElementById("course-name");
-  const courseDescriptionInput  = document.getElementById("course-description");
-  const courseTypeSelect = document.getElementById("course-type");
-  const courseTopicSelect = document.getElementById("course-topic");
-  const courseSpSelect = document.getElementById("course-supporter");
-  const courseThumb = document.getElementById("course-logo-preview");
-  const updateCourseBtn = document.querySelector(".btn-update-course");
 
   courseThumbnailInputEl.addEventListener("change", async (e) => {
 
@@ -162,88 +155,7 @@
     }catch(e) {
       console.log(e);
     }
-
-  })
-  const courseList = [];
-
-  const courseAPI = async () => {
-    const res = await fetch('http://localhost:8080/api/v1/courses', {
-      method: 'GET', // string or object
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const myJson = await res.json(); //extract JSON from the http response
-    courseList.push(myJson);
-    console.log(courseList)
-  }
-  courseAPI();
-
-  const courseItem = [[${course}]]
-  console.log(courseItem.id)
-
-  const deleteCourseBtn = document.querySelector(".btn-delete-course");
-  deleteCourseBtn.addEventListener('click', function () {
-      const courseId = courseItem.id;
-
-      // Thực hiện DELETE request để xóa dữ liệu khóa học
-      fetch(`http://localhost:8080/api/v1/courses/${courseId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          // Các headers khác nếu cần
-        },
-      })
-
-              .then(response => {
-                if (response.status === 200) {
-                  // Xóa khóa học khỏi danh sách
-
-                  console.log(response)
-                  window.location.href = 'http://localhost:8080/admin/course'
-                } else {
-                  console.log(response.json())
-                  throw new Error('Lỗi khi xóa khóa học từ API.');
-                }
-              })
-              .catch(error => {
-                console.error('Lỗi khi xóa khóa học:', error);
-              });
   });
-
-    updateCourseBtn.addEventListener('click' ,function () {
-
-      const rq  = {
-        "name" : courseNameInput.value,
-        "description" : courseDescriptionInput.value,
-        "type" : courseTypeSelect.value,
-        "topics": courseTopicSelect.value,
-        "avatar" : courseThumb.value
-      }
-
-      fetch('http://localhost:8080/api/v1/courses/${id}', {
-        method: 'PUT', // hoặc 'PATCH' nếu API hỗ trợ
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({rq}),
-      })
-              .then(response => {
-                if (response.status === 200) {
-                  return response.json();
-                } else {
-                  throw new Error('Lỗi khi cập nhật dữ liệu trong API.');
-                }
-              })
-              .then(updatedData => {
-                // Xử lý dữ liệu sau khi cập nhật thành công
-                console.log('Dữ liệu đã được cập nhật:', updatedData);
-              })
-              .catch(error => {
-                console.error('Lỗi khi cập nhật dữ liệu:', error);
-              });
-    })
-
 </script>
 </body>
 
