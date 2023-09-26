@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+  <title>Kong's Blog</title>
+  <link rel=icon href=img/umaru.PNG>
+  <link rel=icon type=image/png sizes=16x16 href=img/umaru.PNG>
+  <link rel=icon type=image/png sizes=32x32 href=img/umaru.PNG>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body class="list" id="top">
+<header class="header">
+  <nav class="nav">
+    <div class="logo">
+      <a th:href="@{/}">Kong.dev</a>
+    </div>
+    <ul id="menu">
+      <li>
+        <a th:href="@{/search}"><span>Search</span></a>
+      </li>
+      <li>
+        <a th:href="@{/categories}"><span>Tags</span></a>
+      </li>
+      <li>
+        <a th:href="@{/project}"><span>Projects</span></a>
+      </li>
+      <li>
+        <a th:href="@{/slide}"><span>Slides</span></a>
+      </li>
+      <li>
+        <a th:href="@{/about}"><span>About</span></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<main class="main">
+  <header class="entry-header">
+    <h1 style="margin-bottom: 1rem;">Tag : <span th:text="${tag.name}"></span></h1>
+  </header>
+
+  <article class="post-entry" th:each="blog : ${blogList}">
+    <header class="entry-header">
+      <h2 th:text="${blog.title}"></h2>
+    </header>
+    <div class="entry-content">
+      <p th:text="${blog.content}"></p>
+    </div>
+    <footer class="entry-footer">
+      <span th:text="${blog.createdAt}"></span>
+    </footer>
+    <a class="entry-link"
+       aria-label="post link to Hướng dẫn tạo tài khoản và sử dụng ChatGPT chỉ với 1 cốc trà đá" th:href="@{/blogs/{blogId}/{blogSlug} (blogId = ${blog.id},blogSlug = ${blog.slug})}"></a>
+  </article>
+</main>
+</body>
+
+</html>

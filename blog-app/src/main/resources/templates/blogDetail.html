@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang=vi dir=auto xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset=utf-8>
+  <meta http-equiv=x-ua-compatible content="IE=edge">
+  <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+  <title>Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá | Kong's Blog</title>
+  <link rel=icon href=img/umaru.PNG>
+  <link rel=icon type=image/png sizes=16x16 href=img/umaru.PNG>
+  <link rel=icon type=image/png sizes=32x32 href=img/umaru.PNG>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body id="top">
+<header class="header">
+  <nav class="nav">
+    <div class="logo">
+      <a th:href="@{/}">Kong.dev</a>
+    </div>
+    <ul id="menu">
+      <li>
+        <a th:href="@{/search}"><span>Search</span></a>
+      </li>
+      <li>
+        <a th:href="@{/categories}"><span>Tags</span></a>
+      </li>
+      <li>
+        <a th:href="@{/project}"><span>Projects</span></a>
+      </li>
+      <li>
+        <a th:href="@{/slide}"><span>Slides</span></a>
+      </li>
+      <li>
+        <a th:href="@{/about}"><span>About</span></a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<main class="main">
+  <article class="post-single">
+    <header class="post-header">
+      <h1 class="post-title" th:text="${blog.title}">Hướng dẫn tạo tài khoản và sử dụng Chat GPT chỉ với 1 cốc trà đá</h1>
+      <div class="post-meta"><span th:text="${blog.createdAt}">01/02/2023</span>
+      </div>
+    </header>
+    <div class="post-content">
+      <p th:text="${blog.content}"></p>
+    </div>
+  </article>
+</main>
+</body>
+
+</html>
