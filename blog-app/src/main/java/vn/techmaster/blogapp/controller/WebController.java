@@ -40,8 +40,8 @@ public class WebController {
     }
 
     @GetMapping("search")
-    public String searchBlog() {
-        return null;
+    public String searchBlog(Model model) {
+        return "search";
     }
 
     @GetMapping("categories")
