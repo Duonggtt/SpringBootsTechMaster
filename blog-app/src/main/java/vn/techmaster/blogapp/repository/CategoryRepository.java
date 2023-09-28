@@ -24,4 +24,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query(nativeQuery = true, name = "getAllCategoryDtoNQ")
     List<CategoryDto> getAllCategoryDtoNQ();
 
+    List<Category> findByIdIn(List<Integer> ids);
 }

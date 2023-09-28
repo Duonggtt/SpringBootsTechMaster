@@ -35,4 +35,9 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     Optional<Blog> findByIdAndSlugAndStatusTrue(Integer id, String slug);
 
     Optional<Blog> findByIdAndSlugAndStatus(Integer id, String slug, Boolean status);
+    Optional<Blog> findById(Integer id);
+
+    void deleteById(Integer id);
+
+
 }

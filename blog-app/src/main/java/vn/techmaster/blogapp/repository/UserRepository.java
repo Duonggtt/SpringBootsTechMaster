@@ -10,4 +10,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByRoles_NameIn(List<String> roles);
 
     <T> T findByEmail(String email, Class<T> type);
+
 }

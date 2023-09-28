@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/admin/layout/blog-list-layout :: blog-list-layout
+      (~{:: #header}, ~{:: #slider}, ~{:: #content})}">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <title>Kong's Blog ~ Admin</title>
+
+</head>
+<body>
+
+<!--    header-->
+    <th:block id="header">
+        <div th:replace="~{/admin/fragment/header :: header}"></div>
+    </th:block>
+
+
+
+    <th:block id="slider">
+        <div th:replace="~{/admin/fragment/slider :: slider}"></div>
+    </th:block>
+
+<th:block id = content>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Dashboard</h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/admin/}">Home</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Dashboard v1
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid"></div>
+        </section>
+    </div>
+
+
+</th:block>
+</body>
+</html>

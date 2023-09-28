@@ -5,18 +5,19 @@
   <meta charset="utf-8" />
   <meta http-equiv="x-ua-compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
-  <title>Kong's Blog</title>
+  <title>Tags | Kong's Blog</title>
+  <link crossorigin="anonymous" th:href="@{/css/style.css}"
+        rel="preload stylesheet" as="style" />
   <link rel=icon href=img/umaru.PNG>
   <link rel=icon type=image/png sizes=16x16 href=img/umaru.PNG>
   <link rel=icon type=image/png sizes=32x32 href=img/umaru.PNG>
-  <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 
 <body class="list" id="top">
 <header class="header">
   <nav class="nav">
     <div class="logo">
-      <a th:href="@{/}">Kong.dev</a>
+      <a th:href="@{/static}">Kong.dev</a>
     </div>
     <ul id="menu">
       <li>
@@ -38,23 +39,15 @@
   </nav>
 </header>
 <main class="main">
-  <header class="entry-header">
-    <h1 style="margin-bottom: 1rem;">Tag : <span th:text="${tag.name}"></span></h1>
+  <header class="page-header">
+    <h1>Tags</h1>
   </header>
-
-  <article class="post-entry" th:each="blog : ${blogList}">
-    <header class="entry-header">
-      <h2 th:text="${blog.title}"></h2>
-    </header>
-    <div class="entry-content">
-      <p th:text="${blog.content}"></p>
-    </div>
-    <footer class="entry-footer">
-      <span th:text="${blog.createdAt}"></span>
-    </footer>
-    <a class="entry-link"
-       aria-label="post link to Hướng dẫn tạo tài khoản và sử dụng ChatGPT chỉ với 1 cốc trà đá" th:href="@{/blogs/{blogId}/{blogSlug} (blogId = ${blog.id},blogSlug = ${blog.slug})}"></a>
-  </article>
+  <ul class="terms-tags">
+    <li th:each="tag : ${categoryList}">
+      <a th:href="@{/categories/{categoryName} (categoryName = ${tag.name})}" th:text="${tag.name}">Action
+        <sup><strong><sup th:text="${tag.used}">5</sup></strong></sup></a>
+    </li>
+  </ul>
 </main>
 </body>
 
