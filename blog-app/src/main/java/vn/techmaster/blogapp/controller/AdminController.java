@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import vn.techmaster.blogapp.entity.Blog;
+import vn.techmaster.blogapp.repository.BlogRepository;
 import vn.techmaster.blogapp.service.BlogService;
 
 import java.util.List;
@@ -19,9 +20,12 @@ public class AdminController {
 
 
     private final BlogService blogService;
+    private final BlogRepository blogRepository;
 
-    public AdminController(BlogService blogService) {
+    public AdminController(BlogService blogService,
+                           BlogRepository blogRepository) {
         this.blogService = blogService;
+        this.blogRepository = blogRepository;
     }
 
     @GetMapping("/")
@@ -32,8 +36,10 @@ public class AdminController {
     @GetMapping("/blogs")
     public String getAllBlogs(Model model) {
         Page<Blog> blogPage = blogService.findAll(1, 5);
+        List<Blog> blogList = blogRepository.saveAllAndFlush(blogPage);
         model.addAttribute("currentPage", 1);
         model.addAttribute("pageData", blogPage);
+        model.addAttribute("blogList", blogList);
         return "admin/blog/blog-index";
     }
 
