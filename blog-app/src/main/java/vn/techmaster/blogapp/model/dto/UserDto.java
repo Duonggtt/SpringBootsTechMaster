@@ -10,9 +10,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class UserDto {
     private Integer id;
     private String name;
     private String email;
-    private List<Role> roles;
+    private String avatar;
+    private List<RoleDto> roles;
 }

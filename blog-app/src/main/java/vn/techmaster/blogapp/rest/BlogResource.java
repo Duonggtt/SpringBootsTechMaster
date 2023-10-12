@@ -1,5 +1,6 @@
 package vn.techmaster.blogapp.rest;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,16 +18,15 @@ public class BlogResource {
 
     @GetMapping
     public ResponseEntity<?> getAllBlogs(@RequestParam(required = false, defaultValue = "1") Integer page,
-                                         @RequestParam(required = false, defaultValue = "10") Integer limit ) {
-        return ResponseEntity.ok(blogService.findAll(page,limit));
+                                         @RequestParam(required = false, defaultValue = "10") Integer limit) {
+        return ResponseEntity.ok(blogService.getAllBlogs(page, limit));
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> getAllBlogOfCurrentUser(@RequestParam(required = false, defaultValue = "1") Integer page,
-//                                                      @RequestParam(required = false, defaultValue = "10") Integer limit ) {
-//        return ResponseEntity.ok(blogService.getAllBlogsOfCurrentUser(page, limit));
-//    }
-
+    @GetMapping("/own-blogs")
+    public ResponseEntity<?> getAllBlogsOfCurrentUser(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                                      @RequestParam(required = false, defaultValue = "10") Integer limit) {
+        return ResponseEntity.ok(blogService.getAllBlogsOfCurrentUser(page, limit));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getBlogById(@PathVariable Integer id) {
@@ -34,13 +34,13 @@ public class BlogResource {
     }
 
     @PostMapping
-    public ResponseEntity<?> createBlog(@RequestBody UpsertBlogRequest request) {
+    public ResponseEntity<?> createBlog(@Valid @RequestBody UpsertBlogRequest request) {
         return new ResponseEntity<>(blogService.createBlog(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBlog(@RequestBody UpsertBlogRequest request,@PathVariable Integer id) {
-        return ResponseEntity.ok(blogService.updateBlog(request,id));
+    public ResponseEntity<?> updateBlog(@RequestBody UpsertBlogRequest request, @PathVariable Integer id) {
+        return ResponseEntity.ok(blogService.updateBlog(id, request));
     }
 
     @DeleteMapping("/{id}")

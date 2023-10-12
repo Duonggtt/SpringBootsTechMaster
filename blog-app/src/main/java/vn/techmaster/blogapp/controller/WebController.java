@@ -2,26 +2,20 @@ package vn.techmaster.blogapp.controller;
 
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import vn.techmaster.blogapp.entity.Blog;
-import vn.techmaster.blogapp.model.dto.CategoryDto;
-import vn.techmaster.blogapp.repository.CategoryRepository;
 import vn.techmaster.blogapp.service.BlogService;
-
-import java.util.List;
+import vn.techmaster.blogapp.service.CategoryService;
 
 @Controller
 @AllArgsConstructor
 public class WebController {
     private final BlogService blogService;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     @GetMapping("/")
     public String getHome(Model model) {
@@ -39,37 +33,24 @@ public class WebController {
         return "page";
     }
 
-    @GetMapping("search")
-    public String searchBlog(Model model) {
-        return "search";
+    @GetMapping("/search")
+    public String searchBlog() {
+        return null;
     }
 
-    @GetMapping("categories")
+    @GetMapping("/categories")
     public String getAllCategory(Model model) {
-        List<CategoryDto> categoryDto = categoryRepository.getAllCategoryDto();
-        model.addAttribute("categoryList",categoryDto);
-        return "tag";
+        model.addAttribute("categories", categoryService.findAll());
+        return "categories";
     }
 
-    @GetMapping("categories/{categoryName}")
-    public String getBlogsOfCategory(Model model, @PathVariable String categoryName) {
-        List<CategoryDto> categoryDtoList = categoryRepository.getAllCategoryDto();
-        CategoryDto categoryDto = new CategoryDto();
-        for(CategoryDto ctg: categoryDtoList) {
-            if(ctg.getName().equals(categoryName)) {
-                categoryDto = ctg;
-            }
-        }
-        List<Blog> blogList = blogService.findByCategoryName(categoryName);
-        model.addAttribute("blogList" , blogList);
-        model.addAttribute("tag" , categoryDto);
-        return "tagDetail";
+    @GetMapping("/categories/{categoryName}")
+    public String getBlogsOfCategory() {
+        return null;
     }
 
-    @GetMapping("blogs/{blogId}/{blogSlug}")
-    public String getBlogDetail(Model model, @PathVariable Integer blogId, @PathVariable String blogSlug) {
-        Blog blog = blogService.findByIdAndSlug(blogId,blogSlug);
-        model.addAttribute("blog",blog);
-        return "blogDetail";
+    @GetMapping("/blogs/{blogId}/{blogSlug}")
+    public String getBlogDetail() {
+        return null;
     }
 }
