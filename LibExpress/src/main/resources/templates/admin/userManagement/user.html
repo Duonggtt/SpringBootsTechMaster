@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: main-fragment( ~{:: #content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách độc giả</title>
+
+</head>
+<body>
+            <!-- content  -->
+            <div id="content">
+                <!-- navbar -->
+                <nav class="content-navbar navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-bars"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                        </button>
+                        <!-- <button class="btn d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fa-solid fa-gear"></i>
+                        </button> -->
+
+                        <div class="" id="navbarSupportedContent">
+
+                        <ul class="nav ml-auto">
+                            <li class="nav-item" style="margin-top: 4px; margin-right: 10px;">
+                                <!-- Rounded switch -->
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Log out</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- noi dung chinh -->
+                <div class="content-header">
+                    <!-- header-content -->
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a th:href="@{/lib-express/admin/dashboard}">Dashboard</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        Danh sách độc giả
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    <!-- Main content -->
+                    <section class="content">
+                        <div class="container-fluid">
+
+                            <div class="row py-2">
+                                <div class="col-12 d-flex justify-content-between">
+                                    <div>
+                                        <a th:href="@{/lib-express/admin/users/create}" type="button" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> Độc giả
+                                        </a>
+                                        <a th:href="@{/lib-express/admin/users}" type="button" class="btn btn-info">
+                                            <i class="fas fa-redo"></i> Refresh
+                                        </a>
+                                    </div>
+
+                                    <form th:action="@{'/lib-express/admin/users/page/' + ${currentPage}}" class="d-flex mb-3">
+                                        <input type="hidden" name ="sortField" th:value="${sortField}">
+                                        <input type="hidden" name ="sortDirection" th:value="${sortDirection}">
+                                        <input name="keyword" required type="text" class="form-control" placeholder="Tìm kiếm..." style="position: relative;">
+                                        <div class="input-group-append mr-3" style="position: absolute; right: 0;"><button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <div th:text="'Số lượng độc giả: ' + ${totalItems}"></div>
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>ID
+                                                        <span>
+                                                            <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage} + '?sortField=id&sortDirection=' + ${reverseSortDir}}">
+                                                                <i  th:type="submit" th:name="sort" th:value="id" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </th>
+                                                    <th>Họ tên
+                                                        <span>
+                                                            <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage} + '?sortField=lastName&sortDirection=' + ${reverseSortDir}}">
+                                                                <i th:type="submit" th:name="sort" th:value="lastName" style=" vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </th>
+                                                    <th>Ngày sinh
+                                                        <span>
+                                                            <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage} + '?sortField=birthDate&sortDirection=' + ${reverseSortDir}}">
+                                                                <i th:type="submit" th:name="sort" th:value="birthDate" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </th>
+                                                    <th>Email
+                                                        <span>
+                                                            <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage} + '?sortField=email&sortDirection=' + ${reverseSortDir}}">
+                                                                <i th:type="submit" th:name="sort" th:value="email" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </th>
+                                                    <th>Trạng thái
+                                                        <span>
+                                                            <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage} + '?sortField=status&sortDirection=' + ${reverseSortDir}}">
+                                                                <i th:type="submit" th:name="sort" th:value="status" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </th>
+                                                    <th>Thẻ thư viện
+                                                        <span>
+                                                            <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage} + '?sortField=cardCreated&sortDirection=' + ${reverseSortDir}}">
+                                                                <i th:type="submit" th:name="sort" th:value="cardCreated" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                            </a>
+                                                        </span>
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr  th:each="user : ${pageData.getContent()}">
+                                                        <td th:text="${user.id}">1</td>
+                                                        <td>
+                                                            <a th:href="@{/lib-express/admin/users/{id}/detail (id=${user.id})}" th:text="${user.firstName} + ${user.lastName}">Trần Tùng Dương</a>
+                                                        </td>
+                                                        <td th:text="${#dates.format(user.birthDate, 'dd-MM-YYYY')}">17/03/2003</td>
+                                                        <td th:text="${user.email}">duonggtung173@gmail.com</td>
+                                                        <td><p th:class="${user.status} ? 'true' : 'false'" th:text="${user.status} ? 'Mở' : 'Khóa'" >Khóa</p></td>
+                                                        <td><p th:class="${user.cardCreated} ? 'true' : 'false'" th:text="${user.cardCreated} ? 'Đã có' : 'Chưa có'" >Đã có</p></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <div class="d-flex justify-content-center mt-3" id="pagination" th:if="${totalPages > 1}">
+
+                                                <ul class="pagination mb-0">
+                                                    <li class="paginate_button page-item previous"
+                                                        th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                                        id="example2_previous">
+                                                        <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                           class="page-link">Trang trước</a>
+                                                    </li>
+                                                    <li class="paginate_button page-item"
+                                                        th:classappend="${number == currentPage ? 'active' : ''}"
+                                                        th:each="number : ${#numbers.sequence(1, pageData.totalPages)}">
+                                                        <a th:href="@{'/lib-express/admin/users/page/' + ${number} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                           class="page-link"
+                                                           th:text="${number}">1</a>
+                                                    </li>
+                                                    <li class="paginate_button page-item next"
+                                                        th:classappend="${currentPage == pageData.totalPages ? 'disabled' : ''}"
+                                                        id="example2_next">
+                                                        <a th:href="@{'/lib-express/admin/users/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                           class="page-link">Trang sau</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
+    <th:block id="js">
+        <script th:inline="javascript">
+
+
+        </script>
+    </th:block>
+
+</body>
+</html>

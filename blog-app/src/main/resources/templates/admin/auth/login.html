@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+  <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css"/>
+
+  <link rel="stylesheet" th:href="@{/admin-lte/plugins/select2/css/select2.min.css}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.css"
+        integrity="sha512-K1k7jSn9RDKEcn/ugqVVvWYu0bcS3q1w6m/5pQSnrj0bCfIqF6Wk49lkmckSb4wglvTP9V17LtS0q0XxYccXbg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+  <link rel="stylesheet" th:href="@{/admin-lte/dist/css/style.css}">
+</head>
+<body class="hold-transition login-box">
+<div class="login-box">
+  <div class="login-logo">
+    <a th:href="@{/login}"><b>Admin</b>Blog</a>
+  </div>
+
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
+      <form id="form-login" >
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Email..." id="email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password..." id="password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+          </div>
+
+        </div>
+      </form>
+
+
+<!--      <p class="mb-1">-->
+<!--        <a href="forgot-password.html">I forgot my password</a>-->
+<!--      </p>-->
+<!--      <p class="mb-0">-->
+<!--        <a href="register.html" class="text-center">Register a new membership</a>-->
+<!--      </p>-->
+    </div>
+
+  </div>
+</div>
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+
+<script th:src="@{/admin-lte/plugins/select2/js/select2.full.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.6.0/pagination.min.js"
+        integrity="sha512-GzbaI5EsNzdEUq6/2XLYpr1y9CUZRIVsUeWTAFgULtQa5jZ3Nug8i0nZKM6jp9NffBCZhymPPQFcF0DK+JkRpw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  const formLogin = document.getElementById('form-login');
+  const email = document.getElementById('email');
+  const password = document.getElementById('password');
+  formLogin.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    console.log("submit form login");
+
+    const data = {
+      email: email.value,
+      password: password.value
+    };
+
+    try {
+      let res = await axios.post('/api/v1/auth/login', data);
+      if (res.status === 200) {
+        alert("Đăng nhập thành công");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
+      } else {
+        alert("Đăng nhập thất bại");
+      }
+    } catch (e) {
+      alert(e.response.data.message)
+    }
+
+
+  })
+</script>
+</body>
+</html>

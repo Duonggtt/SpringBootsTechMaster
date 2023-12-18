@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: main-fragment( ~{:: #content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách phiếu mượn</title>
+</head>
+    <body>
+        <!-- content  -->
+        <div id="content">
+            <!-- navbar -->
+            <nav class="content-navbar navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-bars"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                    </button>
+                    <!-- <button class="btn d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-gear"></i>
+                    </button> -->
+
+                    <div class="" id="navbarSupportedContent">
+
+                        <ul class="nav ml-auto">
+                            <li class="nav-item" style="margin-top: 4px; margin-right: 10px;">
+                                <!-- Rounded switch -->
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Log out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- noi dung chinh -->
+            <div class="content-header">
+                <!-- header-content -->
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a th:href="@{/lib-express/admin/dashboard}">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Danh sách phiếu mượn
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+
+                        <div class="row py-2">
+                            <div class="col-12 d-flex justify-content-between">
+                                <div>
+                                    <a href="/html/admin/borrow-create.html" type="button" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> phiếu mượn
+                                    </a>
+                                    <a th:href="@{/lib-express/admin/borrow-list}" type="button" class="btn btn-info">
+                                        <i class="fas fa-redo"></i> Refresh
+                                    </a>
+                                </div>
+
+                                <form th:action="@{'/lib-express/admin/borrow-list/page/' + ${currentPage}}" class="d-flex mb-3">
+                                    <input type="hidden" name ="sortField" th:value="${sortField}">
+                                    <input type="hidden" name ="sortDirection" th:value="${sortDirection}">
+                                    <input name="keyword" required type="text" class="form-control" placeholder="Tìm kiếm..." style="position: relative;">
+                                    <div class="input-group-append mr-3" style="position: absolute; right: 0;"><button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>ID
+                                                    <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage} + '?sortField=id&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="id" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                                </th>
+                                                <th>Mã độc giả
+                                                    <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage} + '?sortField=user_id&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="user_id" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                                </th>
+                                                <th>Tên độc giả
+                                                    <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage} + '?sortField=username&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="username" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                                </th>
+                                                <th>Số lượng
+                                                    <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage} + '?sortField=bookQuantity&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="bookQuantity" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                                </th>
+                                                <th>Ngày mượn
+                                                    <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage} + '?sortField=borrowDate&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="borrowDate" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                                </th>
+                                                <th>Số ngày mượn
+                                                    <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage} + '?sortField=borrowDateQuantity&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="borrowDateQuantity" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                                </th>
+                                                <th>Trạng thái
+                                                    <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage} + '?sortField=status&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="status" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                                </th>
+                                                <th>Chi tiết</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="borrow : ${pageData.getContent()}">
+                                                <td th:text="${borrow.id}">1</td>
+                                                <td th:text="${borrow.user.id}">2</td>
+                                                <td th:text="${borrow.username}">Trần Tùng Dương</td>
+                                                <td th:text="${borrow.bookQuantity}">2</td>
+                                                <td th:text="${#dates.format(borrow.borrowDate, 'dd-MM-YYYY')}">20/11/2003</td>
+                                                <td th:text="${borrow.borrowDateQuantity}">3</td>
+                                                <td><p th:class="${borrow.status == 'Đang mượn' ? 'text-warning' : 'text-error'}" th:text="${borrow.status}">Đang mượn</p></td>
+                                                <td><a th:href="@{/lib-express/admin/borrow-list/{id}/detail (id=${borrow.id})}" class="text-success">Xem chi tiết</a></td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <div class="d-flex justify-content-center mt-3" id="pagination" >
+                                            <nav aria-label="Page navigation example">
+                                                <ul class="pagination mb-0">
+                                                    <li class="paginate_button page-item previous"
+                                                        th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                                        id="example2_previous">
+                                                        <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                           class="page-link">Trang trước</a>
+                                                    </li>
+                                                    <li class="paginate_button page-item"
+                                                        th:classappend="${number == currentPage ? 'active' : ''}"
+                                                        th:each="number : ${#numbers.sequence(1, pageData.totalPages)}">
+                                                        <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${number} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                           class="page-link"
+                                                           th:text="${number}">1</a>
+                                                    </li>
+                                                    <li class="paginate_button page-item next"
+                                                        th:classappend="${currentPage == pageData.totalPages ? 'disabled' : ''}"
+                                                        id="example2_next">
+                                                        <a th:href="@{'/lib-express/admin/borrow-list/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                           class="page-link">Trang sau</a>
+                                                    </li>
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+        <th:block id="js">
+            <script th:inline="javascript">
+
+            </script>
+        </th:block>
+    </body>
+</html>

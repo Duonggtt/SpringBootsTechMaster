@@ -1,7 +1,6 @@
 package vn.techmaster.blogapp.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import vn.techmaster.blogapp.model.dto.CategoryDto;
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<!-- Header Row -->
+    <table>
+        <tr>
+            <th>ID
+                <span>
+                <i th:href="@{/user(sort='id', page=1, pageSize=10, sortDirection=${(sortField eq 'id' and sortDirection eq 'asc') ? 'desc' : 'asc'})}"
+                   style="vertical-align: text-top;"
+                   class="sort fa-solid fa-sort-down text-warning"></i>
+            </span>
+            </th>
+            <!-- Add other headers as needed -->
+        </tr>
+
+        <!-- Data Rows -->
+        <tr th:each="user : ${pageData.content}">
+            <td th:text="${user.id}"></td>
+            <!-- Add other user properties as needed -->
+        </tr>
+    </table>
+</body>
+</html>

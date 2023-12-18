@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <th:block th:fragment="sidebar">
+        <!-- sidebar -->
+        <nav id="sidebar">
+            <div class="p-4 pt-5">
+                <a href="#" class="img logo rounded-circle" style="background-image: url(/assets/img/beluga.jpg);"></a>
+                <h4 class="logo-name"><a href="#">Admin-LibExpress</a></h4>
+                <ul class="list-unstyled components mb-5">
+                    <li class="lis">
+                        <a th:href="@{/lib-express/admin/dashboard}">Dashboard</a>
+                    </li>
+                    <li class="lis active">
+                        <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Quản lý độc giả</a>
+                        <ul class="collapse list-unstyled" id="userSubmenu">
+                            <li>
+                                <a th:href="@{/lib-express/admin/users}">Danh sách độc giả</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/lib-express/admin/users/create}">Thêm mới độc giả</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li  class="lis">
+                        <a href="#bookSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Quản lý kho sách</a>
+                        <ul class="collapse list-unstyled" id="bookSubmenu">
+                            <li>
+                                <a th:href="@{/lib-express/admin/books}">Kho sách</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/lib-express/admin/books/create}">Thêm sách mới</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="lis">
+                        <a th:href="@{/lib-express/admin/categories}">Danh sách danh mục</a>
+                    </li>
+                    <li class="lis">
+                        <a th:href="@{/lib-express/admin/publishers}">Quản lý NXB</a>
+                    </li>
+                    <li class="lis">
+                        <a th:href="@{/lib-express/admin/authors}">Quản lý tác giả</a>
+                    </li>
+                    <li class="lis">
+                        <a href="#borrowSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Quản lý phiếu mượn</a>
+                        <ul class="collapse list-unstyled" id="borrowSubmenu">
+                            <li>
+                                <a th:href="@{/lib-express/admin/borrow-list}">Danh sách phiếu mượn</a>
+                            </li>
+                            <li>
+                                <a href="/html/admin/book-create.html">Tạo phiếu mượn</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="lis">
+                        <a href="#newsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Quản lý tin tức</a>
+                        <ul class="collapse list-unstyled" id="newsSubmenu">
+                            <li>
+                                <a href="#">Danh sách các tin tức</a>
+                            </li>
+                            <li>
+                                <a href="#">Tạo tin tức mới</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="lis">
+                        <a href="#">Lịch sử mượn</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <script>
+            var items = document.querySelectorAll('.lis');
+
+            // Gán sự kiện click cho mỗi phần tử
+            items.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    // Loại bỏ lớp 'active' từ tất cả các phần tử
+                    items.forEach(function(element) {
+                        element.classList.remove('active');
+                    });
+
+                    // Thêm lớp 'active' cho phần tử được nhấp vào
+                    item.classList.add('active');
+                });
+            });
+        </script>
+    </th:block>
+
+
+</body>
+</html>

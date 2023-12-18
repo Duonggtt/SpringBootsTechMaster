@@ -39,7 +39,7 @@ public class BlogResource {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBlog(@RequestBody UpsertBlogRequest request, @PathVariable Integer id) {
+    public ResponseEntity<?> updateBlog(@Valid @RequestBody UpsertBlogRequest request, @PathVariable Integer id) {
         return ResponseEntity.ok(blogService.updateBlog(id, request));
     }
 

@@ -337,7 +337,7 @@
                 content: easyMDE.value(),
                 status: status.value === "true",
                 categoryIds: $("#category").val().map(id => Number(id)),
-                thumbnail: thumbnailPreviewEl.src
+                    thumbnail: thumbnailPreviewEl.src
             };
             console.log(data);
 
@@ -360,7 +360,7 @@
             const isDelete = confirm("Bạn có chắc chắn muốn xóa bài viết này không?");
             if (!isDelete) return;
             try {
-                let res = await axios.delete("/api/v1/admin/blogs/" + blog.id);
+                let res = await axios.delete("api/v1/admin/blogs/" + blog.id);
                 if (res.status === 204) {
                     toastr.success("Xóa bài viết thành công");
                     setTimeout(() => {

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: main-fragment( ~{:: #content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+</head>
+<body>
+    <!-- content  -->
+    <div id="content">
+        <!-- navbar -->
+        <nav class="content-navbar navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+                <!-- <button class="btn d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-gear"></i>
+                </button> -->
+
+                <div class="" id="navbarSupportedContent">
+
+                    <ul class="nav ml-auto">
+                        <li class="nav-item" style="margin-top: 4px; margin-right: 10px;">
+                            <!-- Rounded switch -->
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Log out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- noi dung chinh -->
+        <div class="content-header">
+            <!-- header-content -->
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/html/admin/index.html">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Danh sách tác giả
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+
+                    <div class="row py-2">
+                        <div class="col-12 d-flex justify-content-between">
+                            <div>
+                                <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#modal-default">
+                                    <i class="fas fa-plus"></i> Tác giả
+                                </a>
+                                <a th:href="@{/lib-express/admin/authors}" type="button" class="btn btn-info">
+                                    <i class="fas fa-redo"></i> Refresh
+                                </a>
+                            </div>
+                            <form th:action="@{'/lib-express/admin/categories/page/' + ${currentPage}}" class="d-flex mb-3">
+                                <input type="hidden" name ="sortField" th:value="${sortField}">
+                                <input type="hidden" name ="sortDirection" th:value="${sortDirection}">
+                                <input name="keyword" required type="text" class="form-control" placeholder="Tìm kiếm..." style="position: relative;">
+                                <div class="input-group-append mr-3" style="position: absolute; right: 0;"><button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <div th:text="'Số lượng tác giả: ' + ${totalItems}"></div>
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>ID
+                                                <a th:href="@{'/lib-express/admin/authors/page/' + ${currentPage} + '?sortField=id&sortDirection=' + ${reverseSortDir}}">
+                                                    <i th:type="submit" th:name="sort" th:value="id" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                            <th>Tên tác giả
+                                                <a th:href="@{'/lib-express/admin/authors/page/' + ${currentPage} + '?sortField=name&sortDirection=' + ${reverseSortDir}}">
+                                                    <i th:type="submit" th:name="sort" th:value="name" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                            <th>Ngày sinh
+                                                <a th:href="@{'/lib-express/admin/authors/page/' + ${currentPage} + '?sortField=birthDate&sortDirection=' + ${reverseSortDir}}">
+                                                    <i th:type="submit" th:name="sort" th:value="birthDate" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="author : ${pageData.getContent()}">
+                                            <td th:text="${author.id}">1</td>
+                                            <td th:text="${author.name}">Tác giả 1</td>
+                                            <td th:text="${#dates.format(author.birthDate, 'dd-MM-YYYY')}">17/03/2003</td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <div class="d-flex justify-content-center mt-3" id="pagination" th:if="${totalPages > 1}">
+
+                                        <ul class="pagination mb-0">
+                                            <li class="paginate_button page-item previous"
+                                                th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                                id="example2_previous">
+                                                <a th:href="@{'/lib-express/admin/authors/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                   class="page-link">Trang trước</a>
+                                            </li>
+                                            <li class="paginate_button page-item"
+                                                th:classappend="${number == currentPage ? 'active' : ''}"
+                                                th:each="number : ${#numbers.sequence(1, pageData.totalPages)}">
+                                                <a th:href="@{'/lib-express/admin/authors/page/' + ${number} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                   class="page-link"
+                                                   th:text="${number}">1</a>
+                                            </li>
+                                            <li class="paginate_button page-item next"
+                                                th:classappend="${currentPage == pageData.totalPages ? 'disabled' : ''}"
+                                                id="example2_next">
+                                                <a th:href="@{'/lib-express/admin/authors/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                   class="page-link">Trang sau</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modal-default">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Thêm tác giả</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <form id="form-author-create">
+                                <div class="modal-body form-group">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên tác giả ...">
+                                </div>
+                                <div class="modal-body form-group">
+                                    <input type="date" class="form-control" id="birthDate" name="birthDate" placeholder="Nhập ngày sinh tác giả VD:17/03/2003 ...">
+                                </div>
+                            </form>
+                            <div class="modal-footer justify-content-end">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-primary" id="btn-create">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+    <th:block id="js">
+        <script th:inline="javascript">
+
+            const nameInput = document.getElementById("name");
+            const birthInput = document.getElementById("birthDate");
+            //tao category moi
+            const btnCreate = document.getElementById("btn-create");
+
+            $('#form-author-create').validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    birthDate: {
+                        required: true
+                    }
+                },
+                messages: {
+                    name: {
+                        required: "Tên tác giả không được để trống"
+                    },
+                    birthDate: {
+                        required: "Ngày tháng năm sinh không được để trống"
+                    }
+
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    console.log({error, element});
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+
+            btnCreate.addEventListener("click", async () => {
+                // validate form
+                if (!$('#form-author-create').valid()) {
+                    return;
+                }
+
+                // Build request body
+                const data = {
+                    name: nameInput.value,
+                    birthDate: birthInput.value
+                };
+                console.log(data);
+
+                try {
+                    let res = await axios.post("/api/v1/admin/authors", data);
+                    if (res.status === 201) {
+                        toastr.success("Tạo tác giả thành công");
+                        setTimeout(() => {
+                            window.location.href = `/lib-express/admin/authors`;
+                        }, 1500);
+                    } else {
+                        toastr.error("Tạo tác giả thất bại");
+                    }
+                } catch (e) {
+                    console.log(e);
+                    toastr.error(e.value);
+                }
+            });
+        </script>
+    </th:block>
+</body>
+</html>

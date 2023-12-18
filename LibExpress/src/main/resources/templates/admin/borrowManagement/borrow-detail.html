@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: main-fragment( ~{:: #content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+    <body>
+        <!-- content  -->
+        <div id="content">
+            <!-- navbar -->
+            <nav class="content-navbar navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-bars"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                    </button>
+                    <!-- <button class="btn d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa-solid fa-gear"></i>
+                    </button> -->
+
+                    <div class="" id="navbarSupportedContent">
+
+                        <ul class="nav ml-auto">
+                            <li class="nav-item" style="margin-top: 4px; margin-right: 10px;">
+                                <!-- Rounded switch -->
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Log out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- noi dung chinh -->
+            <div class="content-header">
+                <!-- header-content -->
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a th:href="@{/lib-express/admin/dashboard}">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    Chi tiết phiếu mượn
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="row py-2">
+                            <div class="col-6">
+                                <a th:href="@{/lib-express/admin/borrow-list}" type="button" class="btn btn-default">
+                                    <i class="fas fa-chevron-left"></i> Quay lại
+                                </a>
+                                <button type="button" class="btn btn-info px-4" id="btn-update">
+                                    Lưu
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-8">
+
+                                                <div class="form-group d-flex flex-column">
+                                                    <label>Trạng thái</label>
+                                                    <input style="width: 120px;height: 40px;border-radius: 5px;border: 1px solid #ccc;text-align: center"
+                                                           th:value="${borrow.status}" th:class="${borrow.status == 'Đang mượn' ? 'text-warning' : 'text-error'}"
+                                                           disabled type="text" class="form-control" id="status"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Tên độc giả</label>
+                                                    <input th:value="${borrow.username}" disabled type="text" class="form-control" id="author_name"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Tên thủ thư</label>
+                                                    <input th:value="${lib}" disabled type="text" class="form-control" id="librarian_name"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Ngày mượn</label>
+                                                    <input th:value="${#dates.format(borrow.borrowDate, 'HH:mm:ss - dd/MM/yyyy')}" disabled type="text" class="form-control" id="borrow_date"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Ngày trả</label>
+                                                    <input th:value="${#dates.format(borrow.returnDate, 'HH:mm:ss - dd/MM/yyyy')}"  disabled type="text" class="form-control" id="return_date"/>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Mã phiếu mượn</label>
+                                                    <input th:value="${borrow.id}" disabled type="text" class="form-control" id="borrowId"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Mã đọc giả</label>
+                                                    <input th:value="${borrow.user.id}" type="text" class="form-control" id="userId"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Mã thủ thư</label>
+                                                    <input th:value="${borrow.librarian.id}" type="text" class="form-control" id="librarianId"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Số ngày mượn</label>
+                                                    <input th:value="${borrow.borrowDateQuantity}" type="text" class="form-control" id="dateQuantity"/>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <!-- tim kiem sach -->
+                                            <div class="col-md-3 ">
+                                                <label style="margin: 0 5px 15px 0;">Tìm kiếm sách</label>
+                                                <button type="button" class="btn btn-success" id="btn-add">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-body d-flex ">
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label>Mã sách</label>
+                                                                <form class="d-flex mb-3">
+                                                                    <input  id="selectedCategoryContent" name="keyword" required type="text" class="form-control" placeholder="Tìm kiếm..." style="position: relative;">
+                                                                    <div class="input-group-append mr-3" style="position: absolute; right: 0;"><button onclick="searchBooks()" type="button" class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-10 d-flex justify-content-end">
+
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label>Tên sách</label>
+                                                                    <input disabled type="text" class="form-control" id="title_search"/>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label>Tác giả</label>
+                                                                    <input disabled type="text" class="form-control" id="author_search"/>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <div class="form-group">
+                                                                    <label>Nhà xuất bản</label>
+                                                                    <input disabled type="text" class="form-control" id="publisher_search"/>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <button style="margin-top: 20px" type="button" class="btn btn-info px-4" id="btn-ref">
+                                                    <i class="fas fa-redo"></i> Refresh
+                                                </button>
+                                            </div>
+
+                                            <hr>
+                                            <!-- //danh sach sach -->
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <table class="table table-bordered table-hover" id="book-list">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Tên sách</th>
+                                                                <th>Tác giả</th>
+                                                                <th>Danh mục</th>
+                                                                <th>Nhà xuất bản</th>
+                                                                <th>Giá tiền</th>
+                                                                <th>Chi tiết</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr th:each="book : ${bookList}">
+                                                                <td th:text="${book.id}">1</td>
+                                                                <td >
+                                                                    <a href="" th:text="${book.title}">sách j đó mà chưa nghĩ ra tên</a>
+                                                                </td>
+                                                                <td th:text="${book.author.name}">Dương Tùng</td>
+                                                                <td >
+                                                                    <span th:each="category : ${book.categories}" th:text="${category.name}" class="badge badge-info mr-1">Danh mục 1</span>
+                                                                </td>
+                                                                <td th:text="${book.publisher.name}">Kim Đồng</td>
+                                                                <td th:text="${book.price}">680000 <span>vnđ</span></td>
+                                                                <td><a href="" class="text-error">Xóa</a></td>
+                                                            </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <th:block id="js">
+            <script th:inline="javascript">
+
+                function searchBooks() {
+                    // Lấy giá trị từ các input
+                    const bookId = document.getElementById('selectedCategoryContent').value;
+                    const title = document.getElementById('title_search');
+                    const author = document.getElementById('author_search');
+                    const publisher = document.getElementById('publisher_search');
+
+                    if (!bookId) {
+                        toastr.error("Vui lòng nhập thông tin tìm kiếm!");
+                        return;  // Dừng hàm nếu không có ID
+                    }
+                    // Gọi API
+                    fetch(`/api/v1/admin/books/${bookId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                // Nếu không thành công (ví dụ, sách không tồn tại), hiển thị thông báo lỗi
+                                toastr.error("Mã sách không tồn tại! Vui lòng nhập lại.");
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Xử lý dữ liệu trả về từ API
+                            displayResult(data);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+
+                const btnUpdate = document.getElementById('btn-add');
+                function displayResult(data) {
+
+                    if (data.length === 0) {
+                        toastr.error("Không có thông tin sách này!");
+                    } else {
+                        document.getElementById('title_search').value = data.title
+                        document.getElementById('author_search').value = data.author.name
+                        document.getElementById('publisher_search').value = data.publisher.name
+                        console.log(data);
+
+                        btnUpdate.addEventListener('click', function () {
+
+                            // Hiển thị dữ liệu trong bảng
+                            const tableBody = document.getElementById('book-list');
+                            const newRow = tableBody.insertRow();
+                            newRow.insertCell().textContent = data.id;
+                            newRow.insertCell().textContent = data.title;
+                            newRow.insertCell().textContent = data.author.name;
+                            newRow.insertCell().textContent = data.category;
+                            newRow.insertCell().textContent = data.publisher.name;
+                            newRow.insertCell().textContent = data.price;
+                            newRow.insertCell().textContent = "Xóa";
+
+                            console.log(data);
+                            addToTable(data);
+                        });
+                    }
+
+
+                }
+                function addToTable(data) {
+                    $.ajax({
+                        url: '/api/v1/admin/',
+                        type: 'POST',
+                        data: data,
+                        success: function() {
+                            toastr.success("Thêm sách vào ...");
+                            console.log("Đã thêm sách vào CSDL");
+                        },
+                        error: function() {
+                            console.error("Lỗi khi thêm sách vào CSDL");
+                        }
+                    });
+                    console.log('Thêm sách vào cơ sở dữ liệu:', data);
+                }
+
+
+
+            </script>
+        </th:block>
+    </body>
+</html>

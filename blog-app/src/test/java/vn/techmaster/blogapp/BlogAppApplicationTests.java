@@ -4,6 +4,7 @@ import com.github.slugify.Slugify;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import vn.techmaster.blogapp.entity.*;
 import vn.techmaster.blogapp.repository.*;
 
@@ -28,6 +29,8 @@ class BlogAppApplicationTests {
 
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     void save_roles() {
@@ -47,9 +50,7 @@ class BlogAppApplicationTests {
         Role authorRole = roleRepository.findByName("AUTHOR").orElse(null);
 
         List<User> users = List.of(
-                new User(null, "Bùi Hiên", "hien@gmail.com", "111", null, List.of(adminRole, userRole)),
-                new User(null, "Minh Duy", "duy@gmail.com", "111", null, List.of(userRole)),
-                new User(null, "Thu Hằng", "hang@gmail.com","111", null, List.of(authorRole, userRole))
+                new User(null, "Duong tung", "dng1@gmail.com", passwordEncoder.encode("123"), null, List.of(adminRole, userRole))
         );
 
         userRepository.saveAll(users);

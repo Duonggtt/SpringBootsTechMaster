@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: main-fragment( ~{:: #content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết độc giả</title>
+
+</head>
+<body>
+
+    <!-- content  -->
+    <div id="content">
+        <!-- navbar -->
+        <nav class="content-navbar navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+                <!-- <button class="btn d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-gear"></i>
+                </button> -->
+
+                <div class="" id="navbarSupportedContent">
+
+                    <ul class="nav ml-auto">
+                        <li class="nav-item" style="margin-top: 4px; margin-right: 10px;">
+                            <!-- Rounded switch -->
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Log out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- noi dung chinh -->
+        <div class="content-header">
+            <!-- header-content -->
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/lib-express/admin/dashboard}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Danh sách độc giả
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Chi tiết độc giả
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row py-2">
+                        <div class="col-10">
+                            <a th:href="@{/lib-express/admin/users}" type="button" class="btn btn-default">
+                                <i class="fas fa-chevron-left"></i> Quay lại
+                            </a>
+                            <button type="button" class="btn btn-info px-4" id="btn-update">
+                                Lưu
+                            </button>
+                            <a th:href="@{/lib-express/admin/users/{id}/detail/create-card (id=${user.id})}" type="button" class="btn btn-primary" th:if="${not user.isCardCreated()}">
+                                <i class="fas fa-plus"></i> Tạo thẻ
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <form id="form-detail-user" class="d-flex justify-content-around flex-wrap">
+
+                                            <div class="col-md-8">
+                                                <div class="form-group d-flex">
+                                                    <div class="mr-5 form-group">
+                                                        <label>Họ của độc giả</label>
+                                                        <input type="text" class="form-control" id="firstName" name="firstName" th:value="${user.firstName}"/>
+                                                    </div>
+                                                    <div class="mr-5 form-group" >
+                                                        <label>Tên độc giả</label>
+                                                        <input type="text" class="form-control" id="lastName" name="lastName" th:value="${user.lastName}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Họ tên</label>
+                                                    <input type="text" class="form-control" id="fullName" name="fullName" th:value="${user.fullName}" disabled/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Ngày sinh</label>
+                                                    <input type=date class="form-control" id="birthdate" name="birthDate" th:value="${#dates.format(user.birthDate, 'yyyy-MM-dd')}"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Địa chỉ</label>
+                                                    <input type="text" class="form-control" id="address" name="address" th:value="${user.address}"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Số điện thoại</label>
+                                                    <input type="text" class="form-control" id="phone" name="phone" th:value="${user.phone}"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input type="text" class="form-control" id="email" name="email" th:value="${user.email}"/>
+                                                </div>
+
+                                                <div class="form-group" >
+                                                    <div>
+                                                        <label>Thẻ thư viện</label>
+                                                        <input type="text" class="form-control" id="card-status" th:value="${user.isCardCreated() ? 'Đã có' : 'Chưa có'}" disabled/>
+                                                    </div>
+                                                    <!-- nếu chưa có thẻ thêm none vào class bên dưới để ẩn -->
+                                                    <div class="library-card-preview mb-3 " th:if="${user.isCardCreated()}" >
+                                                        <div class="debit-card card-2 mb-4">
+                                                            <div class="d-flex flex-column h-100">
+                                                                <label class="d-block">
+                                                                    <div class="d-flex position-relative justify-content-between " >
+                                                                        <div style="width: 70%;">
+                                                                            <h4 style="color: #4d4b4b;">LibExpress Card</h4>
+                                                                            <div class="d-flex justify-content-between ">
+                                                                                <p class="text-white fw-bold" th:text="${card.username}">Trần Tùng Dương</p>
+                                                                                <p class="m-0 text-white" th:text="${card.id}">20210379</p>
+                                                                            </div>
+                                                                            <span class="d-flex" style="gap: 3px;">
+                                                                            <p>Ngày sinh: </p>
+                                                                            <p class="m-0 text-white" th:text="${#dates.format(card.userBirthDate, 'dd-MM-YYYY')}">17/03/2003</p>
+                                                                        </span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <img style="width: 70px; height: 80px;" th:src="@{/assets/img/beluga.jpg}" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                </label>
+                                                                <div class="mt-auto d-flex align-items-center justify-content-between">
+                                                                <span class="d-flex " style="gap: 3px;">
+                                                                    <p>Ngày tạo: </p>
+                                                                    <p class="m-0 text-white" th:text="${#dates.format(card.createdAt, 'dd-MM-YYYY')}"> 20/01/2013</p>
+                                                                </span>
+                                                                    <span class="d-flex" style="gap: 3px;">
+                                                                    <p>Ngày hết: </p>
+                                                                    <p class="m-0 text-white" th:text="${#dates.format(card.end_at, 'dd-MM-YYYY')}"> 20/01/2013</p>
+                                                                </span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div th:unless="${user.isCardCreated()}" class="library-card-preview mb-3 none">
+                                                        <!-- Nội dung hiển thị khi chưa có thẻ -->
+                                                        <p class="text-muted">Chưa có thẻ thư viện.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Trạng thái</label>
+                                                    <select id="status" name="status" class="form-control">
+                                                        <option value="false" th:selected="not ${user.status}">
+                                                            Khóa
+                                                        </option>
+                                                        <option value="true" th:selected="${user.status}">
+                                                            Mở
+                                                        </option>
+                                                    </select>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <div class="thumbnail-preview-container mb-3">
+                                                        <img th:src="${user.avatar != null ? user.avatar : 'https://placehold.co/600x400'}"
+                                                             id="thumbnail"/>
+                                                    </div>
+                                                    <button type="button" class="btn btn-info btn-flat" data-toggle="modal"
+                                                            data-target="#modal-xl" id="btn-modal-image">
+                                                        Chọn hình ảnh
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <div class="modal fade" id="modal-xl" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Danh sách ảnh</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <button class="btn btn-success" id="btn-chose-image" disabled>Chọn ảnh</button>
+
+                                    <label for="avatar" class="btn btn-warning mb-0">Upload ảnh</label>
+                                    <input type="file" id="avatar" class="d-none">
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger" id="btn-delete-image" disabled>Xóa ảnh</button>
+                                </div>
+                            </div>
+                            <!-- Hiển thị danh sách ảnh -->
+                            <div class="image-container mt-4 mb-4">
+                                <div class="image-item">
+                                    <img src="https://images.unsplash.com/photo-1656918931725-2f9d9fce4acb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+                                         alt="">
+                                </div>
+                            </div>
+
+                            <!-- Hiển thị phần phân trang -->
+                            <div class="pagination-container d-flex justify-content-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block id="js">
+        <script th:inline="javascript">
+            // let imageList = [[${imageList}]];
+            // console.log(imageList);
+
+            let userId = [[${user.id}]];
+            // // Initialize editor
+            // const easyMDE = new EasyMDE({
+            //     element: document.getElementById("content"),
+            //     spellChecker: false,
+            //     maxHeight: "300px",
+            //     renderingConfig: {
+            //         codeSyntaxHighlighting: true,
+            //     },
+            // });
+
+            const imageContainerEl = document.querySelector(".image-container");
+            const btnChoseImage = document.getElementById("btn-chose-image");
+            const btnDeleteImage = document.getElementById("btn-delete-image");
+            const inputImageEl = document.getElementById("avatar");
+            const thumbnailPreviewEl = document.getElementById("thumbnail");
+            const firstNameInput = document.getElementById("firstName");
+            const fullNameInput = document.getElementById("fullName");
+            const lastNameInput = document.getElementById("lastName");
+            const birthDateInputEle = document.getElementById("birthdate");
+            const addressInput = document.getElementById("address");
+            const phoneInput = document.getElementById("phone");
+            const emailInput = document.getElementById("email");
+            const btnUpdate = document.getElementById("btn-update");
+            const statusInput = document.getElementById("status");
+
+            // Render image
+            // const renderImageList = (images) => {
+            //     let html = "";
+            //     images.forEach(image => {
+            //         html += `
+            //         <div class="image-item" onclick="choseImage(this)" data-id="${image.id}">
+            //             <img src="/api/v1/images/${image.id}" alt="">
+            //         </div>
+            //     `
+            //     })
+            //     imageContainerEl.innerHTML = html;
+            // }
+
+            // Render pagination
+            // const renderPagination = (imageList) => {
+            //     console.log("Render Pagination : ", imageList)
+            //     $('.pagination-container').pagination({
+            //         dataSource: imageList,
+            //         pageSize: 8,
+            //         callback: function (data, pagination) {
+            //             renderImageList(data);
+            //         }
+            //     })
+            // }
+
+            // Upload file
+            // inputImageEl.addEventListener('change', (e) => {
+            //     // Lấy thông tin file upload
+            //     const file = e.target.files[0];
+            //
+            //     // Tạo form data
+            //     const formData = new FormData();
+            //     formData.append('file', file);
+            //
+            //     // call api
+            //     fetch(`/api/v1/admin/images`, {
+            //         method: 'POST',
+            //         body: formData
+            //     })
+            //         .then(res => res.json())
+            //         .then(data => {
+            //             imageList.unshift(data);
+            //             renderPagination(imageList);
+            //         })
+            //         .catch(err => {
+            //             console.log(err);
+            //         })
+            // })
+
+            // Xử lý chọn ảnh
+            // const choseImage = el => {
+            //     const selectedEl = document.querySelector('.image-item.selected');
+            //     if (selectedEl) {
+            //         selectedEl.classList.remove('selected');
+            //     }
+            //     el.classList.add('selected');
+            //
+            //     btnChoseImage.disabled = false;
+            //     btnDeleteImage.disabled = false;
+            // }
+
+            // Xóa ảnh
+            // btnDeleteImage.addEventListener('click', async () => {
+            //     const selectedEl = document.querySelector('.image-item.selected');
+            //     const imageId = selectedEl.dataset.id;
+            //     console.log(typeof imageId)
+            //
+            //     try {
+            //         await fetch(`/api/v1/admin/images/${imageId}`, {
+            //             method: 'DELETE'
+            //         })
+            //         console.log("Before", imageList)
+            //         imageList = imageList.filter(image => image.id !== Number(imageId));
+            //         console.log("After", imageList)
+            //         renderPagination(imageList);
+            //
+            //         btnChoseImage.disabled = true;
+            //         btnDeleteImage.disabled = true;
+            //     } catch (error) {
+            //         console.log(error)
+            //     }
+            // })
+
+            //chon anh cho user
+            // btnChoseImage.addEventListener('click', () => {
+            //     const selectedEl = document.querySelector('.image-item.selected');
+            //     const imageId = selectedEl.dataset.id;
+            //
+            //     thumbnailPreviewEl.src = `/api/v1/images/${imageId}`;
+            //     $('#modal-xl').modal('hide');
+            // })
+
+            // validate form
+            $('#form-detail-user').validate({
+                rules: {
+                    firstName: {
+                        required: true
+                    },
+                    lastName: {
+                        required: true
+                    },
+                    birthDate: {
+                        required: true
+                    },
+                    address: {
+                        required: true
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    phone: {
+                        required: true,
+                        pattern: /^(0\d{9}|(\+84|84)[1-9]\d{8})$/
+                    }
+                },
+                messages: {
+                    firstName: {
+                        required: "Tên họ không được để trống"
+                    },
+                    lastName: {
+                        required: "Tên riêng không được để trống"
+                    }
+                    ,birthDate: {
+                        required: "Ngày sinh không được để trống"
+                    }
+                    ,address: {
+                        required: "Địa chỉ không được để trống"
+                    },
+                    email: {
+                        required: "Email không được để trống",
+                        email: "Email không đúng định dạng",
+                    },
+                    phone: {
+                        required: "Số điện thoại không được để trống",
+                        pattern: "Số điện thoại không đúng định dạng",
+                    }
+
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    console.log({error, element});
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+
+            //luu user
+
+            btnUpdate.addEventListener("click", async () => {
+                // validate form
+                if (!$('#form-detail-user').valid()) {
+                    console.log("co vao day")
+                    return;
+                }
+                // Build request body
+
+                const data = {
+                    firstName: firstNameInput.value,
+                    lastName: lastNameInput.value,
+                    birthDate: birthDateInputEle.value,
+                    address: addressInput.value,
+                    phone: phoneInput.value,
+                    email: emailInput.value,
+                    status: statusInput.value
+                };
+                console.log(data);
+
+                try {
+                    let res = await axios.put("/api/v1/admin/users/" + userId, data);
+                    if (res.status === 201) {
+                        toastr.success("Cập nhật đọc giả thành công");
+                        setTimeout(() => {
+                            window.location.href = `/lib-express/admin/users/${res.data.id}/detail`;
+                        }, 1500);
+                    } else {
+                        toastr.error("Cập nhật đọc giả thất bại");
+                    }
+                } catch (e) {
+                    console.log(e);
+                    toastr.error(e.response.data.message);
+                }
+            });
+
+            // Vừa vào trang thì render pagination
+            // renderPagination(imageList);
+        </script>
+    </th:block>
+
+</body>
+</html>

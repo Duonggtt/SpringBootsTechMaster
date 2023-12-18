@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: main-fragment( ~{:: #content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho sách</title>
+</head>
+<body>
+
+    <!-- content  -->
+    <div id="content">
+        <!-- navbar -->
+        <nav class="content-navbar navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="fa fa-bars"></i>
+                    <span class="sr-only">Toggle Menu</span>
+                </button>
+                <!-- <button class="btn d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-gear"></i>
+                </button> -->
+
+                <div class="" id="navbarSupportedContent">
+
+                    <ul class="nav ml-auto">
+                        <li class="nav-item" style="margin-top: 4px; margin-right: 10px;">
+                            <!-- Rounded switch -->
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Log out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- noi dung chinh -->
+        <div class="content-header">
+            <!-- header-content -->
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a th:href="@{/lib-express/admin/dashboard}">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                Kho sách
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+
+                    <div class="row py-2 ">
+                        <div class="col-12 d-flex justify-content-between">
+                            <div>
+                                <a th:href="@{/lib-express/admin/books/create}" type="button" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Sách mới
+                                </a>
+                                <a th:href="@{/lib-express/admin/books}" type="button" class="btn btn-info">
+                                    <i class="fas fa-redo"></i> Refresh
+                                </a>
+                            </div>
+                            <div class="d-flex justify-content-around gap-2">
+                                <div>
+                                    <select id="categorySelect" onchange="displayCategoryContent()" name="category" style="width: 150px; height: 38px; border: 1px solid #ccc; border-radius: 5px">
+                                        <option hidden="-- Danh mục --">Danh mục</option>
+                                        <option id="btn-get" th:each="category : ${categoryList}" th:text="${category.name}" th:value="${category.id}">1</option>
+                                    </select>
+                                </div>
+                                <form th:action="@{'/lib-express/admin/books/page/' + ${currentPage}}" class="d-flex mb-3">
+                                    <input type="hidden" name ="sortField" th:value="${sortField}">
+                                    <input type="hidden" name ="sortDirection" th:value="${sortDirection}">
+                                    <input id="selectedCategoryContent" name="keyword" required type="text" class="form-control" placeholder="Tìm kiếm..." style="position: relative;">
+                                    <div class="input-group-append mr-3" style="position: absolute; right: 0;"><button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div th:text="'Số lượng sách: ' + ${totalItems}"></div>
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>ID
+                                                    <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage} + '?sortField=id&sortDirection=' + ${reverseSortDir}}">
+                                                        <i  th:type="submit" th:name="sort" th:value="id" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                    </a>
+                                            </th>
+                                            <th>Tên sách
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage} + '?sortField=title&sortDirection=' + ${reverseSortDir}}">
+                                                    <i  th:type="submit" th:name="sort" th:value="title" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                            <th>Tác giả
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage} + '?sortField=author&sortDirection=' + ${reverseSortDir}}">
+                                                    <i  th:type="submit" th:name="sort" th:value="author" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                            <th>Danh mục</th>
+                                            <th>Nhà xuất bản
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage} + '?sortField=publisher&sortDirection=' + ${reverseSortDir}}">
+                                                    <i  th:type="submit" th:name="sort" th:value="publisher" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                            <th>Số lượng
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage} + '?sortField=quantity&sortDirection=' + ${reverseSortDir}}">
+                                                    <i  th:type="submit" th:name="sort" th:value="quantity" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                            <th>Giá tiền
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage} + '?sortField=price&sortDirection=' + ${reverseSortDir}}">
+                                                    <i  th:type="submit" th:name="sort" th:value="price" style="vertical-align: text-top;" class="sort fa-solid fa-sort-down text-warning"></i>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="book : ${pageData.getContent()}">
+                                                <td th:text="${book.id}">1</td>
+                                                <td>
+                                                    <a th:text="${book.title}" th:href="@{/lib-express/admin/books/{id}/detail (id=${book.id})}">sách j đó mà chưa nghĩ ra tên</a>
+                                                </td>
+                                                <td th:text="${book.author.name}">Dương Tùng</td>
+                                                <td>
+                                                    <span th:each="category : ${book.categories}" th:text="${category.name}" class="badge badge-info mr-1">Danh mục 1</span>
+                                                </td>
+                                                <td th:text="${book.publisher.name}">Kim Đồng</td>
+                                                <td><p class="true" th:text="${book.quantity}">14</p></td>
+                                                <td th:text="${book.price}">680000 <span>vnđ</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="d-flex justify-content-center mt-3" id="pagination" th:if="${totalPages > 1}">
+
+                                        <ul class="pagination mb-0">
+                                            <li class="paginate_button page-item previous"
+                                                th:classappend="${currentPage == 1 ? 'disabled' : ''}"
+                                                id="example2_previous">
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} + ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                   class="page-link">Trang trước</a>
+                                            </li>
+                                            <li class="paginate_button page-item"
+                                                th:classappend="${number == currentPage ? 'active' : ''}"
+                                                th:each="number : ${#numbers.sequence(1, pageData.totalPages)}">
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${number} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                   class="page-link"
+                                                   th:text="${number}">1</a>
+                                            </li>
+                                            <li class="paginate_button page-item next"
+                                                th:classappend="${currentPage == pageData.totalPages ? 'disabled' : ''}"
+                                                id="example2_next">
+                                                <a th:href="@{'/lib-express/admin/books/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}+ ${keyword != null ? '?keyword=' + keyword : ''}}"
+                                                   class="page-link">Trang sau</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <th:block id="js">
+        <script th:inline="javascript">
+            function displayCategoryContent() {
+                var selectedCategoryId = document.getElementById("categorySelect").value;
+
+                // Gọi API để lấy nội dung của Category
+                fetch('/api/v1/admin/categories/' + selectedCategoryId)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Hiển thị nội dung của Category trong ô input
+                        console.log(data.name)
+                        document.getElementById("selectedCategoryContent").value = data.name;
+                    })
+                    .catch(error => console.error("API error:", error));
+            }
+        </script>
+    </th:block>
+</body>
+</html>

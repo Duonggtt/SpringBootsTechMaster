@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{admin/layout/layout :: main-fragment( ~{:: #content}, ~{:: #js})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Tạo thẻ thư viện</title>
+
+</head>
+<body>
+
+
+            <!-- content  -->
+            <div id="content">
+                <!-- navbar -->
+                <nav class="content-navbar navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+
+                        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-bars"></i>
+                        <span class="sr-only">Toggle Menu</span>
+                        </button>
+                        <!-- <button class="btn d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fa-solid fa-gear"></i>
+                        </button> -->
+
+                        <div class="" id="navbarSupportedContent">
+                        
+                        <ul class="nav ml-auto">
+                            <li class="nav-item" style="margin-top: 4px; margin-right: 10px;">
+                                <!-- Rounded switch -->
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Log out</a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- noi dung chinh -->
+                <div class="content-header">
+                    <!-- header-content -->
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a th:href="@{/lib-express/admin/dashboard}">Dashboard</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        Danh sách độc giả
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        Chi tiết độc giả
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        Tạo thẻ thư viện
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main content -->
+                    <section class="content">
+                        <div class="container-fluid">
+                            <div class="row py-2">
+                                <div class="col-6">
+                                    <a th:href="@{/lib-express/admin/users/{id}/detail (id=${user.id})}" type="button" class="btn btn-default">
+                                        <i class="fas fa-chevron-left"></i> Quay lại
+                                    </a>
+                                    <button type="button" class="btn btn-primary" id="btn-create" >
+                                        <i class="fas fa-plus"></i> Tạo
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-8">
+
+                                                    <div class="form-group">
+                                                        <label>Họ tên</label>
+                                                        <input th:value="${user.fullName}" type="text" class="form-control" id="fullName"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Ngày sinh</label>
+                                                        <input th:value="${#dates.format(user.birthDate, 'yyyy-MM-dd')}" type="date" class="form-control" id="birthdate"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Ngày tạo</label>
+                                                        <input disabled type="date" class="form-control" id="created-at" />
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Ngày hết hạn</label>
+                                                        <input disabled type="date" class="form-control" id="end-at"/>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Ảnh thẻ</label>
+                                                        <div class="thumbnail-preview-container mb-3">
+                                                            <img style="width: 80%;" src="https://placehold.co/600x400" id="thumbnail"/>
+                                                        </div>
+                                                        <label for="avatar" class="btn btn-info btn-flat">Upload ảnh</label>
+                                                        <input type="file" id="avatar" class="d-none" onchange="previewImage()">
+                                                    </div>
+                                                </div>
+
+                                                
+                                                <div class="col-md-4">
+                                                    <label>Preview</label>
+                                                    <div class="debit-card card-2 mb-4 " style="max-width: 380px">
+                                                        <div class="d-flex flex-column h-100">
+                                                            <label class="d-block">
+                                                                <div class="d-flex position-relative justify-content-between " >
+                                                                    <div style="width: 70%;">
+                                                                        <h4 style="color: #4d4b4b;">LibExpress Card</h4>
+                                                                        <div class="d-flex justify-content-between ">
+                                                                            <p id="fullName-preview" class="text-white fw-bold"></p>
+                                                                            <p class="m-0 text-white">ID Thẻ</p>
+                                                                        </div>
+                                                                        <span class="d-flex" style="gap: 3px;">
+                                                                            <p >Ngày sinh: </p>
+                                                                            <p id="birthDate-preview" class="m-0 text-white"></p>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div>
+                                                                        <img id="avatar-pre" style="width: 70px; height: 80px;" src="/assets/img/beluga.jpg" alt="">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <div class="mt-auto d-flex align-items-center justify-content-between">
+                                                                <span class="d-flex " style="gap: 3px;">
+                                                                    <p>Ngày tạo: </p>
+                                                                    <p id="created-at-preview" class="m-0 text-white"> </p>
+                                                                </span>
+                                                                <span class="d-flex" style="gap: 3px;">
+                                                                    <p>Ngày hết: </p>
+                                                                    <p id="end-at-preview" class="m-0 text-white"> </p>
+                                                                </span>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+
+            <th:block id="js">
+                <script th:inline="javascript">
+                    var userId = [[${user.id}]]
+
+                    const btnCreate = document.getElementById("btn-create");
+
+                    //hien thi tu input qua card
+
+                    function inputChange(event, previewElementId) {
+                        var displayElement = document.getElementById(previewElementId);
+                        displayElement.textContent = event.currentTarget.value;
+                    }
+
+                    var fullName = document.getElementById('fullName');
+                    fullName.addEventListener('input', function(event) {
+                        inputChange(event, 'fullName-preview');
+                    });
+
+                    var birth = document.getElementById('birthdate');
+                    birth.addEventListener('input', function(event) {
+                        inputChange(event, 'birthDate-preview');
+                    });
+
+                    //preview avatar
+                    function previewImage() {
+                        var input = document.getElementById('avatar');
+                        var thumbnail = document.getElementById('thumbnail');
+                        var avatar = document.getElementById('avatar-pre');
+
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+
+                            reader.onload = function (e) {
+                                thumbnail.src = e.target.result;
+                                avatar.src = e.target.result;
+                            };
+
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+
+
+                    //hien thi ngay thang tao - het
+                    document.addEventListener("DOMContentLoaded", function () {
+                        // Lấy ngày hôm nay
+                        var today = new Date();
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
+                        var yyyy = today.getFullYear();
+                        var formattedToday = yyyy + '-' + mm + '-' + dd;
+
+                        // Đặt giá trị ngày hôm nay vào ô input
+                        document.getElementById("created-at").value = formattedToday;
+                        document.getElementById("created-at-preview").textContent = formattedToday;
+
+                        // Tính ngày sau 100 ngày
+                        var dateAfter100Days = new Date(today);
+                        dateAfter100Days.setDate(today.getDate() + 100);
+
+                        var dd100 = String(dateAfter100Days.getDate()).padStart(2, '0');
+                        var mm100 = String(dateAfter100Days.getMonth() + 1).padStart(2, '0');
+                        var yyyy100 = dateAfter100Days.getFullYear();
+                        var formattedDateAfter100Days = yyyy100 + '-' + mm100 + '-' + dd100;
+
+                        // Đặt giá trị ngày sau 100 ngày vào ô input
+                        document.getElementById("end-at").value = formattedDateAfter100Days;
+                        document.getElementById("end-at-preview").textContent = formattedDateAfter100Days;
+                    });
+
+
+                        //tao the
+                    btnCreate.addEventListener("click", async () => {
+                            // validate form
+                            // if (!$('#form-create-user').valid()) {
+                            //     return;
+                            // }
+
+                            try {
+                                let res = await axios.post('/api/v1/admin/users/create-card?userId=' + userId);
+                                if (res.status === 200) {
+                                    toastr.success("Tạo thẻ thư viện thành công");
+                                    setTimeout(() => {
+                                        window.location.href = `/lib-express/admin/users/${userId}/detail`;
+                                    }, 1500);
+                                } else {
+                                    console.log(res.status)
+                                    toastr.error("Tạo thẻ thư viện thất bại");
+                                }
+                            } catch (e) {
+                                console.log(e);
+                                toastr.error(e.value);
+                            }
+                        });
+
+
+                </script>
+            </th:block>
+
+</body>
+</html>

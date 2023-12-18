@@ -1,12 +1,13 @@
 package vn.techmaster.blogapp.repository;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import vn.techmaster.blogapp.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import vn.techmaster.blogapp.model.dto.CategoryDto;
 
 import java.util.List;
-
+@Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findByBlogs_Status(Boolean status);
 
