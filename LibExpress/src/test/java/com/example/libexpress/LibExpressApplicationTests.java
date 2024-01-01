@@ -19,15 +19,6 @@ class LibExpressApplicationTests {
 	private FinesLevelRepository finesLevelRepository;
 
 
-	private final BorrowService borrowService;
-
-	private final BorrowDetailService borrowDetailService;
-
-
-	LibExpressApplicationTests(BorrowService borrowService, BorrowDetailService borrowDetailService) {
-		this.borrowService = borrowService;
-		this.borrowDetailService = borrowDetailService;
-	}
 
 
 	@Test
@@ -64,14 +55,6 @@ class LibExpressApplicationTests {
 		finesLevelRepository.save(finesLevel4);
 	}
 
-	@Test
-	void test_list() {
-		BorrowManagement borrow = borrowService.getBorrowTicketById(13);
-		System.out.println(borrow.getStatus());
-		List<BorrowManagementDetail> borrowDetail = borrowDetailService.getBorrowDetailByBorrowId(borrow.getId());
-        for (BorrowManagementDetail borrowManagementDetail : borrowDetail) {
-            System.out.println(borrowManagementDetail.getBookTitle());
-        }
-	}
+
 
 }

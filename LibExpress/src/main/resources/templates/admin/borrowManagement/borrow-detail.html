@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+
+    </style>
+
 </head>
     <body>
         <!-- content  -->
@@ -176,7 +180,7 @@
 
                                                 </div>
                                                 <button style="margin-top: 20px" type="button" class="btn btn-info px-4" id="btn-ref">
-                                                    <i class="fas fa-redo"></i> Refresh
+                                                    <a style="color: #fff" th:href="@{/lib-express/admin/borrow-list/{id}/detail (id=${borrow.id})}"><i class="fas fa-redo"></i> Refresh</a>
                                                 </button>
                                             </div>
 
@@ -191,7 +195,7 @@
                                                                 <th>ID</th>
                                                                 <th>Tên sách</th>
                                                                 <th>Tác giả</th>
-                                                                <th>Danh mục</th>
+<!--                                                                <th>Danh mục</th>-->
                                                                 <th>Nhà xuất bản</th>
                                                                 <th>Giá tiền</th>
                                                                 <th>Chi tiết</th>
@@ -201,15 +205,15 @@
                                                             <tr th:each="book : ${bookList}">
                                                                 <td th:text="${book.id}">1</td>
                                                                 <td >
-                                                                    <a href="" th:text="${book.title}">sách j đó mà chưa nghĩ ra tên</a>
+                                                                    <a href="" th:id="'modal' + ${book.id}" class="openModalBtn" th:text="${book.title}" th:data-modal-id="'modal' + ${book.id}">sách j đó mà chưa nghĩ ra tên</a>
                                                                 </td>
                                                                 <td th:text="${book.author.name}">Dương Tùng</td>
-                                                                <td >
-                                                                    <span th:each="category : ${book.categories}" th:text="${category.name}" class="badge badge-info mr-1">Danh mục 1</span>
-                                                                </td>
+<!--                                                                <td >-->
+<!--                                                                    <span th:each="category : ${book.categories}" th:text="${category.name}" class="badge badge-info mr-1">Danh mục 1</span>-->
+<!--                                                                </td>-->
                                                                 <td th:text="${book.publisher.name}">Kim Đồng</td>
                                                                 <td th:text="${book.price}">680000 <span>vnđ</span></td>
-                                                                <td><a href="" class="text-error">Xóa</a></td>
+                                                                <td><a href="" class="text-error" onclick="confirmDelete('Bạn có chắc muốn xóa không?', this)" th:data-book-id="${book.id}">Xóa</a></td>
                                                             </tr>
 
                                                             </tbody>
@@ -224,10 +228,160 @@
                         </div>
                     </div>
                 </section>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal" style="display:none;background-color: #fff; width: 900px;height: 500px; position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);border-radius: 10px;box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;padding: 10px;z-index: 11">
+                        <div id="detail-form" class="modal-detail" >
+                        <span class="close" id="closeModalBtn" onmouseover=" this.style.cursor='pointer'">&times;</span>
+                        <p>Thông tin chi tiết sẽ hiển thị ở đây...</p>
+                    </div>
+                </div>
+                <!-- Nền mờ xung quanh modal -->
+                <div class="overlay" id="overlay" style="display: none;position: fixed;top:0;left:0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5);z-index: 0"></div>
+
+                <script>
+                    // JavaScript để xử lý sự kiện click để mở modal
+                    document.addEventListener("DOMContentLoaded", function() {
+                    document.querySelectorAll('.openModalBtn').forEach(function(button) {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            var modalId = button.getAttribute('data-modal-id');
+                            console.log(modalId);
+                            openModal(modalId);
+                        });
+                    });
+
+                    // JavaScript để xử lý sự kiện click để đóng modal
+                    document.getElementById('closeModalBtn').addEventListener('click', function() {
+                        closeModal();
+                    });
+
+                    // JavaScript để ẩn modal khi click ra ngoài modal
+                    document.getElementById('overlay').addEventListener('click', function() {
+                        closeModal();
+                    });
+                        function openModal(modalId) {
+                            console.log('Attempting to open modal with id:', modalId);
+
+                            var modal = document.getElementById('myModal');
+                            var overlay = document.getElementById('overlay');
+
+                            modal.style.display = 'block';
+                            console.log(modal);
+                            overlay.style.display = 'block';
+
+                        }
+
+                        function closeModal() {
+                            console.log('Closing modals.');
+
+                            document.querySelectorAll('.modal').forEach(function(modal) {
+                                if (modal) {
+                                    modal.style.display = 'none';
+                                }
+                            });
+
+                            var overlay = document.getElementById('overlay');
+                            if (overlay) {
+                                overlay.style.display = 'none';
+                            } else {
+                                console.error('Overlay element not found.');
+                            }
+                        }
+                    });
+                </script>
             </div>
         </div>
         <th:block id="js">
             <script th:inline="javascript">
+                let searchData = null;
+                const btnUpdate = document.getElementById('btn-add');
+
+                btnUpdate.addEventListener('click', function () {
+                    const data = searchData;
+                    // Hiển thị dữ liệu trong bảng
+                    const tableBody = document.getElementById('book-list');
+                    const newRow = tableBody.insertRow();
+                    newRow.insertCell().textContent = data.id;
+
+                    const cellTitle = newRow.insertCell();
+                    const titleLink = document.createElement('a');
+                    titleLink.id = 'modal' + data.id;
+                    titleLink.textContent = data.title;
+                    titleLink.setAttribute('data-modal-id', 'modal' + data.id);
+                    titleLink.href = '';
+                    titleLink.classList.add('text-warning','openModalBtn'); // Thêm class 'text-warning' cho thẻ <a>
+                    cellTitle.appendChild(titleLink);
+                    titleLink.addEventListener('click', function (event) {
+                        event.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
+                        openModal();// Gọi hàm mở modal ở đây hoặc thực hiện các hành động khác
+                    });
+                    document.querySelectorAll('.openModalBtn').forEach(function(button) {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            var modalId = button.getAttribute('data-modal-id');
+                            console.log(modalId);
+                            openModal(modalId);
+                        });
+                    });
+
+                    // JavaScript để xử lý sự kiện click để đóng modal
+                    document.getElementById('closeModalBtn').addEventListener('click', function() {
+                        closeModal();
+                    });
+
+                    // JavaScript để ẩn modal khi click ra ngoài modal
+                    document.getElementById('overlay').addEventListener('click', function() {
+                        closeModal();
+                    });
+
+
+                    newRow.insertCell().textContent = data.author.name;
+                    newRow.insertCell().textContent = data.publisher.name;
+                    newRow.insertCell().textContent = data.price;
+
+                    const cellDelete = newRow.insertCell();
+                    const deleteLink = document.createElement('a');
+                    deleteLink.textContent = "Xóa";
+                    deleteLink.href = '';
+                    deleteLink.classList.add('text-error'); // Thêm class 'text-warning' cho thẻ <a>
+                    cellDelete.appendChild(deleteLink);
+                    const req = {
+                        bookId : data.id,
+                        borrowId : document.getElementById('borrowId').value
+                    }
+                    console.log(req);
+                    addToTable(req);
+                    resetSearchInputs();
+                });
+                function openModal(modalId) {
+                    console.log('Attempting to open modal with id:', modalId);
+
+                    var modal = document.getElementById('myModal');
+                    var overlay = document.getElementById('overlay');
+
+                    modal.style.display = 'block';
+                    console.log(modal);
+                    overlay.style.display = 'block';
+
+                }
+
+                function closeModal() {
+                    console.log('Closing modals.');
+
+                    document.querySelectorAll('.modal').forEach(function(modal) {
+                        if (modal) {
+                            modal.style.display = 'none';
+                        }
+                    });
+
+                    var overlay = document.getElementById('overlay');
+                    if (overlay) {
+                        overlay.style.display = 'none';
+                    } else {
+                        console.error('Overlay element not found.');
+                    }
+                }
 
                 function searchBooks() {
                     // Lấy giá trị từ các input
@@ -251,6 +405,11 @@
                         })
                         .then(data => {
                             // Xử lý dữ liệu trả về từ API
+                            if (Array.isArray(data)) {
+                                // Nếu là mảng, lấy phần tử đầu tiên
+                                data = data.shift;
+                            }
+                            searchData = data;
                             displayResult(data);
                         })
                         .catch(error => {
@@ -258,54 +417,73 @@
                         });
                 }
 
-                const btnUpdate = document.getElementById('btn-add');
-                function displayResult(data) {
 
+                function displayResult(data) {
                     if (data.length === 0) {
                         toastr.error("Không có thông tin sách này!");
                     } else {
                         document.getElementById('title_search').value = data.title
                         document.getElementById('author_search').value = data.author.name
                         document.getElementById('publisher_search').value = data.publisher.name
-                        console.log(data);
-
-                        btnUpdate.addEventListener('click', function () {
-
-                            // Hiển thị dữ liệu trong bảng
-                            const tableBody = document.getElementById('book-list');
-                            const newRow = tableBody.insertRow();
-                            newRow.insertCell().textContent = data.id;
-                            newRow.insertCell().textContent = data.title;
-                            newRow.insertCell().textContent = data.author.name;
-                            newRow.insertCell().textContent = data.category;
-                            newRow.insertCell().textContent = data.publisher.name;
-                            newRow.insertCell().textContent = data.price;
-                            newRow.insertCell().textContent = "Xóa";
-
-                            console.log(data);
-                            addToTable(data);
-                        });
                     }
-
-
                 }
-                function addToTable(data) {
+                function resetSearchInputs() {
+                    // Reset search input fields
+                    document.getElementById('selectedCategoryContent').value ='';
+                    document.getElementById('title_search').value = '';
+                    document.getElementById('author_search').value = '';
+                    document.getElementById('publisher_search').value = ''
+                }
+                function addToTable(req) {
                     $.ajax({
-                        url: '/api/v1/admin/',
+                        url: '/api/v1/admin/borrow-list/add-detail',
                         type: 'POST',
-                        data: data,
+                        data: JSON.stringify(req),
+                        contentType: 'application/json',
                         success: function() {
-                            toastr.success("Thêm sách vào ...");
+                            toastr.success("Thêm sách vào phiếu mượn thành công!");
                             console.log("Đã thêm sách vào CSDL");
                         },
                         error: function() {
                             console.error("Lỗi khi thêm sách vào CSDL");
                         }
                     });
-                    console.log('Thêm sách vào cơ sở dữ liệu:', data);
+                    console.log('Thêm sách vào cơ sở dữ liệu:', req);
                 }
 
+                function confirmDelete(message, element) {
+                    // Hiển thị hộp thoại xác nhận
+                    var result = confirm(message);
+                    const borrowId = document.getElementById('borrowId').value;
 
+                    var bookId = element.getAttribute('data-book-id');
+                    console.log(borrowId + "        " + bookId);
+                    // Nếu người dùng chọn OK trong hộp thoại xác nhận
+                    if (result) {
+                        console.log("co vao day");
+                        // Gọi API để xóa BorrowManagementDetail
+                        $.ajax({
+                            url: '/api/v1/admin/borrow-list/delete', // Thay đổi URL tùy thuộc vào đường dẫn của API của bạn
+                            type: 'DELETE',
+                            data: { bookId: bookId ,
+                                    borrowId : borrowId
+                                },
+                            success: function () {
+                                toastr.success("Xóa thành công!");
+                                updateTable();
+                            },
+                            error: function () {
+                                toastr.error("Xóa thất bại!");
+                            }
+                        });
+                    }
+                }
+
+                function updateTable() {
+                    // Thực hiện cập nhật nội dung của bảng ở đây
+                    // Ví dụ: có thể làm mới trang hoặc thực hiện yêu cầu AJAX để lấy dữ liệu mới
+                    location.reload(); // Ví dụ đơn giản: làm mới trang
+                }
 
             </script>
         </th:block>

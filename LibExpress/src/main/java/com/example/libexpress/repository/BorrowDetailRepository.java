@@ -24,4 +24,10 @@ public interface BorrowDetailRepository extends JpaRepository<BorrowManagementDe
 
 
     List<BorrowManagementDetail> findAllByBorrowManagementId(Integer id);
+
+    @Query("SELECT brD.id FROM BorrowManagementDetail brD WHERE brD.borrowManagement.id = ?1")
+    Integer findByBorrowId(Integer borrowId);
+
+    @Query("SELECT brD FROM BorrowManagementDetail brD WHERE brD.book.id = ?1 and brD.borrowManagement.id = ?2")
+    BorrowManagementDetail findByBookIdAndBorrowManagementId(Integer bookId, Integer borrowManagementId);
 }

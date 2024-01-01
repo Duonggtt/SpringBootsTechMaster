@@ -68,6 +68,29 @@ public class BorrowService {
         return borrowManagement;
     }
 
+    public BorrowManagement updateBorrowTicket(UpsertBorrowRequest request , Integer id) {
+        BorrowManagement borrowManagement = borrowRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Khong tim thay phieu muon co id= " + id));
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new NotFoundException("Khong tim thay user vs id = " + request.getUserId()));
+        Librarian librarian = librarianRepository.findById(1)
+                .orElseThrow(() -> new NotFoundException("null") );
+
+        borrowManagement.setUser(user);
+        borrowManagement.setUsername(user.getFirstName() + ' ' + user.getLastName());
+        borrowManagement.setBorrowDate(new Date());
+        borrowManagement.setBorrowDateQuantity(request.getBorrowDateQuantity());
+        borrowManagement.setBookQuantity(request.getBook_quantity());
+        borrowManagement.setStatus(request.toString());
+        borrowManagement.setLibrarian(librarian);
+
+        if(request.getStatus().equals("Đã trả")) {
+            History his = new History();
+
+        }
+        return borrowManagement;
+    }
+
     public BorrowManagement getBorrowTicketById(Integer id) {
         return borrowRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Khong tim thay phieu muon co id = " + id));

@@ -17,4 +17,5 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
             + "LIKE %?1%")
     Page<Book> findAll(String keyword, Pageable pageable);
 
+    List<Book> findAllById(Integer bookId);
 }

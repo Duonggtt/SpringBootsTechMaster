@@ -45,4 +45,5 @@ public class CategoryResource {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
+
 }

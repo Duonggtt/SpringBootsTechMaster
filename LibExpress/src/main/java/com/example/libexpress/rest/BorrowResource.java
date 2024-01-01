@@ -1,5 +1,6 @@
 package com.example.libexpress.rest;
 
+import com.example.libexpress.entity.BorrowManagementDetail;
 import com.example.libexpress.model.request.UpsertBorrowDetailRequest;
 import com.example.libexpress.model.request.UpsertBorrowRequest;
 import com.example.libexpress.service.BorrowDetailService;
@@ -47,5 +48,24 @@ public class BorrowResource {
     @GetMapping("/{id}")
     public ResponseEntity<?> getBorrowTicketById(@PathVariable Integer id) {
         return ResponseEntity.ok(borrowService.getBorrowTicketById(id));
+    }
+
+    @PostMapping("/add-detail")
+    public ResponseEntity<?> createBorrowDetail(
+            @RequestBody UpsertBorrowDetailRequest request) {
+
+        return ResponseEntity.ok(borrowDetailService.createBorrowDetail(request));
+    }
+
+
+    @PutMapping("/{id}/detail")
+    public ResponseEntity<?> updateBorrowDetail(@RequestBody UpsertBorrowDetailRequest request,@PathVariable Integer id) {
+        return ResponseEntity.ok(borrowDetailService.updateBorrowDetail(request,id));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteBorrowDetail(@RequestParam("bookId") Integer bookId, @RequestParam("borrowId") Integer borrowId) {
+        borrowDetailService.deleteDetail(bookId, borrowId);
+        return ResponseEntity.ok("BorrowManagementDetail deleted successfully");
     }
 }

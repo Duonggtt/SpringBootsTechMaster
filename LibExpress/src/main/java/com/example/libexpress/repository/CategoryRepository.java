@@ -17,4 +17,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Page<Category> findAll(String keyword, Pageable pageable);
 
     List<Category> findByIdIn(List<Integer> categoryIds);
+
 }

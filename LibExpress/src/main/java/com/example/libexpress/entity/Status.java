@@ -17,5 +17,5 @@ public class Status {
     @Id
     private Integer id;
     @Column(name = "is_open")
-    private boolean isOpen;
+    private boolean status;
 }

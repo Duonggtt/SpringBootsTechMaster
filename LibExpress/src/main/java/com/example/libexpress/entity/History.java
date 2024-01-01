@@ -17,32 +17,51 @@ public class History {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "borrow_management_id")
-    private BorrowManagement borrowManagement;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "book_id")
-    private Integer bookId;
-
-    @Column(name = "user_name")
+    @Column(name="user_name")
     private String username;
 
-    @Column(name = "book_title")
-    private String bookTitle;
+    @Column(name = "borrow_date")
+    private Date borrowDate;
 
     @Column(name = "return_date")
     private Date returnDate;
-
-    @Column(name = "librarian_id")
-    private Integer librarianId;
-
-    private int amount;
-    @Column(name = "borrow_date")
-    private Date borrowDate;
 
     @Column(name = "borrow_date_quantity")
     private int borrowDateQuantity;
 
     @Column(name = "book_quantity")
     private int bookQuantity;
+    private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "librarian_id")
+    private Librarian librarian;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    @Column(name = "book_title")
+    private String bookTitle;
+
+    @Column(name = "book_author")
+    private String bookAuthor;
+
+
+    @Column(name = "book_status")
+    private String bookStatus;
+
+    private int amount;
+
+    @ManyToOne
+    @JoinColumn(name = "borrow_management_id")
+    private BorrowManagement borrowManagement;
+
+    @OneToOne
+    @JoinColumn(name = "fines_id")
+    private Fines fines;
 }

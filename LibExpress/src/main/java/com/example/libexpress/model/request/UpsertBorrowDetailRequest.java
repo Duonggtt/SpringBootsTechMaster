@@ -16,9 +16,7 @@ public class UpsertBorrowDetailRequest {
     private Integer bookId;
     private String bookTitle;
     private String bookAuthor;
-    private Date returnDate;
     private String bookStatus;
-    private int amount;
     private Integer finesId;
     private Integer borrowId;
 }

@@ -37,7 +37,7 @@ public class BorrowTest {
     public void save_borrow() {
 
         BorrowManagement br = new BorrowManagement();
-        User user = userRepository.findById(4)
+        User user = userRepository.findById(9)
                 .orElseThrow();
         Librarian librarian = librarianRepository.findById(1)
                 .orElseThrow();
@@ -83,7 +83,7 @@ public class BorrowTest {
 
     @Test
     public void save_borrow_detail() {
-        BorrowManagement br = borrowRepository.findById(15)
+        BorrowManagement br = borrowRepository.findById(3)
                 .orElseThrow(() -> new NotFoundException("null"));
         int j = 4;
         for(int i =0;i<br.getBookQuantity();i++) {
